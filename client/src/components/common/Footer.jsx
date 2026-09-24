@@ -9,7 +9,7 @@ const Footer = () => {
           <div className="w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
             <Sparkles className="w-3.5 h-3.5" />
           </div>
-          <span className="font-semibold text-slate-200">InnoPilot AI Platform</span>
+          <span className="font-semibold text-slate-200">INNOPILOT AI Platform</span>
           <span className="text-slate-600">|</span>
           <span>Next-Gen Capstone & Research Discovery</span>
         </div>
