@@ -4,6 +4,8 @@ const ProjectIdea = require('../models/ProjectIdea');
 const IdeaVersion = require('../models/IdeaVersion');
 const Category = require('../models/Category');
 const Report = require('../models/Report');
+const { isDbConnected } = require('../config/db');
+const { categories: fallbackCategories, projects: fallbackProjects, problems: fallbackProblems, users: fallbackUsers } = require('../services/resilientStore');
 
 // @desc    Get system-wide metrics and stats for Admin Dashboard
 // @route   GET /api/admin/stats
@@ -125,6 +127,14 @@ exports.updateUserRoleOrStatus = async (req, res, next) => {
 // @access  Public / Private
 exports.getCategories = async (req, res, next) => {
   try {
+    if (!isDbConnected()) {
+      return res.status(200).json({
+        success: true,
+        count: fallbackCategories.length,
+        categories: fallbackCategories,
+      });
+    }
+
     let categories = await Category.find({ isActive: true });
     
     // Seed default categories if none exist
@@ -179,7 +189,25 @@ exports.createCategory = async (req, res, next) => {
 // @access  Private
 exports.getStudentDashboardStats = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.id || req.user._id;
+
+    if (!isDbConnected()) {
+      const userProjects = fallbackProjects.filter((p) => String(p.userId) === String(userId));
+      const userProblems = fallbackProblems.filter((p) => String(p.userId) === String(userId));
+      return res.status(200).json({
+        success: true,
+        stats: {
+          problemsDiscovered: userProblems.length,
+          ideasGenerated: userProjects.length,
+          ideasSaved: userProjects.filter((p) => p.isSaved).length,
+          ideasImproved: 0,
+          latestProject: userProjects[0] || null,
+          latestProblems: userProblems.slice(0, 3),
+          savedProjects: userProjects.slice(0, 5),
+          difficultyBreakdown: [],
+        },
+      });
+    }
 
     const problemsCount = await Problem.countDocuments({ userId });
     const ideasCount = await ProjectIdea.countDocuments({ userId });

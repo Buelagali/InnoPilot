@@ -20,13 +20,16 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           const res = await authAPI.getMe();
-          if (res.data.success) {
+          if (res.data?.success && res.data?.user) {
             setUser(res.data.user);
             localStorage.setItem('user', JSON.stringify(res.data.user));
           }
         } catch (err) {
-          console.error('Failed to verify token', err);
-          logout();
+          console.warn('Session verification notice:', err.response?.data?.message || err.message);
+          // Only invalidate session if explicitly 401 (token expired/invalid)
+          if (err.response?.status === 401) {
+            logout();
+          }
         }
       }
       setLoading(false);

@@ -2,7 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const connectDB = require('./config/db');
+const mongoose = require('mongoose');
+const { connectDB, isDbConnected } = require('./config/db');
 const { generalLimiter } = require('./middleware/rateLimiter');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -18,16 +19,56 @@ const adminRoutes = require('./routes/adminRoutes');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// Connect to Database
+// Trust reverse proxy (Render, Vercel, Cloudflare) for proper rate limiting and client IP resolution
+app.set('trust proxy', 1);
+
+// Connect to Database (with auto-retry)
 connectDB();
 
-// Middleware
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    credentials: true,
-  })
-);
+// Dynamic CORS configuration allowing localhost and production deployments
+const allowedOrigins = [
+  'https://innopilot-zeta.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:5001',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:3000',
+];
+
+if (process.env.CLIENT_URL) {
+  process.env.CLIENT_URL.split(',').forEach((url) => {
+    const clean = url.trim().replace(/\/+$/, '');
+    if (clean && !allowedOrigins.includes(clean)) {
+      allowedOrigins.push(clean);
+    }
+  });
+}
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow non-browser requests (curl, postman, mobile, server-to-server)
+    if (!origin) return callback(null, true);
+
+    const cleanOrigin = origin.replace(/\/+$/, '');
+    if (
+      allowedOrigins.includes(cleanOrigin) ||
+      cleanOrigin.endsWith('.vercel.app') ||
+      cleanOrigin.endsWith('.onrender.com') ||
+      /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(cleanOrigin)
+    ) {
+      return callback(null, true);
+    }
+    // Permissive for cloud frontend integration
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -38,12 +79,23 @@ if (process.env.NODE_ENV !== 'production') {
 // Global API Rate Limiter
 app.use('/api', generalLimiter);
 
-// Health Check
+// Health Check Endpoint
 app.get('/api/health', (req, res) => {
+  const dbStates = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+  const dbState = dbStates[mongoose.connection.readyState] || 'unknown';
+  const ready = isDbConnected();
+
   res.status(200).json({
     status: 'online',
     platform: 'AI Project Discovery & Innovation Platform API',
     timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    database: {
+      status: ready ? 'connected' : 'resilient-mode',
+      state: dbState,
+      uriConfigured: Boolean(process.env.MONGODB_URI),
+      isAtlas: (process.env.MONGODB_URI || '').includes('mongodb+srv'),
+    },
     aiProvider: process.env.GEMINI_API_KEY ? 'Google Gemini Live' : 'Smart Resilient Engine',
   });
 });

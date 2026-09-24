@@ -52,6 +52,15 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
+  // Mongoose connection buffering timeout
+  if (err.name === 'MongooseError' && err.message && err.message.includes('buffering timed out')) {
+    return res.status(503).json({
+      success: false,
+      message: 'Database is currently connecting. Please retry in a few moments.',
+      errorCode: 'DATABASE_CONNECTING',
+    });
+  }
+
   res.status(error.statusCode || 500).json({
     success: false,
     message: error.message || 'Internal Server Error',

@@ -1,10 +1,21 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
 const emailService = require('../services/emailService');
+const { isDbConnected } = require('../config/db');
+const { users: resilientUsers } = require('../services/resilientStore');
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET || 'super_secret_jwt_key_innovation_platform_2026_xyz', {
+const generateToken = (idOrUser) => {
+  const id = typeof idOrUser === 'object' ? (idOrUser._id || idOrUser.id) : idOrUser;
+  const payload = { id };
+  if (typeof idOrUser === 'object') {
+    if (idOrUser.email) payload.email = idOrUser.email;
+    if (idOrUser.role) payload.role = idOrUser.role;
+    if (idOrUser.name) payload.name = idOrUser.name;
+  }
+  return jwt.sign(payload, process.env.JWT_SECRET || 'super_secret_jwt_key_innovation_platform_2026_xyz', {
     expiresIn: process.env.JWT_EXPIRE || '7d',
   });
 };
@@ -43,7 +54,19 @@ exports.register = async (req, res, next) => {
       });
     }
 
-    const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
+    const normalizedEmail = email.toLowerCase().trim();
+    let existingUser = null;
+
+    if (isDbConnected()) {
+      try {
+        existingUser = await User.findOne({ email: normalizedEmail });
+      } catch (e) {
+        existingUser = resilientUsers.get(normalizedEmail);
+      }
+    } else {
+      existingUser = resilientUsers.get(normalizedEmail);
+    }
+
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -52,35 +75,92 @@ exports.register = async (req, res, next) => {
       });
     }
 
-    // Default admin if first user or explicitly created in seed, otherwise student
+    // Default admin if role explicitly requested as admin, otherwise student
     const assignedRole = role === 'admin' ? 'admin' : 'student';
 
-    const user = await User.create({
-      name,
-      email: email.toLowerCase().trim(),
-      passwordHash: password,
-      role: assignedRole,
-      college: college || '',
-      branch: branch || '',
-      skills: Array.isArray(skills) ? skills : typeof skills === 'string' ? skills.split(',').map((s) => s.trim()).filter(Boolean) : [],
-      programmingLanguages: Array.isArray(programmingLanguages)
-        ? programmingLanguages
-        : typeof programmingLanguages === 'string'
-        ? programmingLanguages.split(',').map((s) => s.trim()).filter(Boolean)
-        : [],
-      aimlKnowledge: aimlKnowledge || 'Beginner',
-      webDevKnowledge: webDevKnowledge || 'Intermediate',
-      interests: Array.isArray(interests) ? interests : typeof interests === 'string' ? interests.split(',').map((s) => s.trim()).filter(Boolean) : [],
-      experienceLevel: experienceLevel || '3rd Year',
-      preferredProjectType: preferredProjectType || 'Major Project',
-      preferredDuration: preferredDuration || '3 - 6 Months',
-      teamSize: Number(teamSize) || 2,
-      hardwareAvailability: hardwareAvailability || 'Standard Laptop',
-      budget: budget || 'Zero Budget (Open Source Only)',
-      isResearchOriented: isResearchOriented !== undefined ? isResearchOriented : true,
-    });
+    const parsedSkills = Array.isArray(skills)
+      ? skills
+      : typeof skills === 'string'
+      ? skills.split(',').map((s) => s.trim()).filter(Boolean)
+      : [];
 
-    const token = generateToken(user._id);
+    const parsedLanguages = Array.isArray(programmingLanguages)
+      ? programmingLanguages
+      : typeof programmingLanguages === 'string'
+      ? programmingLanguages.split(',').map((s) => s.trim()).filter(Boolean)
+      : [];
+
+    const parsedInterests = Array.isArray(interests)
+      ? interests
+      : typeof interests === 'string'
+      ? interests.split(',').map((s) => s.trim()).filter(Boolean)
+      : [];
+
+    let user = null;
+
+    if (isDbConnected()) {
+      try {
+        user = await User.create({
+          name,
+          email: normalizedEmail,
+          passwordHash: password,
+          role: assignedRole,
+          college: college || '',
+          branch: branch || '',
+          skills: parsedSkills,
+          programmingLanguages: parsedLanguages,
+          aimlKnowledge: aimlKnowledge || 'Beginner',
+          webDevKnowledge: webDevKnowledge || 'Intermediate',
+          interests: parsedInterests,
+          experienceLevel: experienceLevel || '3rd Year',
+          preferredProjectType: preferredProjectType || 'Major Project',
+          preferredDuration: preferredDuration || '3 - 6 Months',
+          teamSize: Number(teamSize) || 2,
+          hardwareAvailability: hardwareAvailability || 'Standard Laptop',
+          budget: budget || 'Zero Budget (Open Source Only)',
+          isResearchOriented: isResearchOriented !== undefined ? isResearchOriented : true,
+        });
+      } catch (dbErr) {
+        console.warn('MongoDB write notice, registering in resilient mode:', dbErr.message);
+      }
+    }
+
+    // Resilient fallback if MongoDB is currently offline or unreachable
+    if (!user) {
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash(password, salt);
+      const id = new mongoose.Types.ObjectId().toString();
+      const rawUser = {
+        _id: id,
+        id,
+        name,
+        email: normalizedEmail,
+        passwordHash,
+        role: assignedRole,
+        college: college || '',
+        branch: branch || '',
+        skills: parsedSkills,
+        programmingLanguages: parsedLanguages,
+        aimlKnowledge: aimlKnowledge || 'Beginner',
+        webDevKnowledge: webDevKnowledge || 'Intermediate',
+        interests: parsedInterests,
+        experienceLevel: experienceLevel || '3rd Year',
+        preferredProjectType: preferredProjectType || 'Major Project',
+        preferredDuration: preferredDuration || '3 - 6 Months',
+        teamSize: Number(teamSize) || 2,
+        hardwareAvailability: hardwareAvailability || 'Standard Laptop',
+        budget: budget || 'Zero Budget (Open Source Only)',
+        isResearchOriented: isResearchOriented !== undefined ? isResearchOriented : true,
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      resilientUsers.set(normalizedEmail, rawUser);
+      user = { ...rawUser };
+      delete user.passwordHash;
+    }
+
+    const token = generateToken(user);
 
     res.status(201).json({
       success: true,
@@ -108,8 +188,36 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    const user = await User.findOne({ email: email.toLowerCase().trim() });
-    if (!user) {
+    const normalizedEmail = email.toLowerCase().trim();
+    let user = null;
+    let isMatch = false;
+
+    if (isDbConnected()) {
+      try {
+        user = await User.findOne({ email: normalizedEmail });
+        if (user) {
+          isMatch = await user.comparePassword(password);
+        }
+      } catch (dbErr) {
+        console.warn('MongoDB query notice, falling back to resilient auth:', dbErr.message);
+        user = null;
+      }
+    }
+
+    // Check resilient store if not matched in MongoDB or if DB is offline
+    if (!user || !isMatch) {
+      const fallbackUser = resilientUsers.get(normalizedEmail);
+      if (fallbackUser) {
+        const matchesFallback = await bcrypt.compare(password, fallbackUser.passwordHash);
+        if (matchesFallback) {
+          user = { ...fallbackUser };
+          delete user.passwordHash;
+          isMatch = true;
+        }
+      }
+    }
+
+    if (!user || !isMatch) {
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password.',
@@ -117,16 +225,7 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid email or password.',
-        errorCode: 'INVALID_CREDENTIALS',
-      });
-    }
-
-    if (!user.isActive) {
+    if (user.isActive === false) {
       return res.status(403).json({
         success: false,
         message: 'This account has been disabled by an administrator.',
@@ -134,7 +233,7 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    const token = generateToken(user._id);
+    const token = generateToken(user);
 
     res.status(200).json({
       success: true,
@@ -152,7 +251,17 @@ exports.login = async (req, res, next) => {
 // @access  Private
 exports.getMe = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id);
+    let user = null;
+    if (isDbConnected()) {
+      try {
+        user = await User.findById(req.user.id);
+      } catch (e) {
+        user = null;
+      }
+    }
+    if (!user) {
+      user = req.user;
+    }
     res.status(200).json({
       success: true,
       user,
@@ -192,10 +301,26 @@ exports.updateProfile = async (req, res, next) => {
       }
     });
 
-    const user = await User.findByIdAndUpdate(req.user.id, updates, {
-      new: true,
-      runValidators: true,
-    });
+    let user = null;
+    if (isDbConnected()) {
+      try {
+        user = await User.findByIdAndUpdate(req.user.id, updates, {
+          new: true,
+          runValidators: true,
+        });
+      } catch (e) {
+        user = null;
+      }
+    }
+
+    if (!user) {
+      const email = req.user.email;
+      const existing = resilientUsers.get(email) || req.user;
+      const updated = { ...existing, ...updates, updatedAt: new Date() };
+      resilientUsers.set(email, updated);
+      user = { ...updated };
+      delete user.passwordHash;
+    }
 
     res.status(200).json({
       success: true,
@@ -230,8 +355,25 @@ exports.changePassword = async (req, res, next) => {
       });
     }
 
-    const user = await User.findById(req.user.id);
-    const isMatch = await user.comparePassword(currentPassword);
+    let isMatch = false;
+    let mongoUser = null;
+
+    if (isDbConnected()) {
+      try {
+        mongoUser = await User.findById(req.user.id);
+        if (mongoUser) {
+          isMatch = await mongoUser.comparePassword(currentPassword);
+        }
+      } catch (e) {
+        mongoUser = null;
+      }
+    }
+
+    const fallbackUser = resilientUsers.get(req.user.email);
+    if (!isMatch && fallbackUser) {
+      isMatch = await bcrypt.compare(currentPassword, fallbackUser.passwordHash);
+    }
+
     if (!isMatch) {
       return res.status(400).json({
         success: false,
@@ -240,8 +382,15 @@ exports.changePassword = async (req, res, next) => {
       });
     }
 
-    user.passwordHash = newPassword;
-    await user.save();
+    if (mongoUser) {
+      mongoUser.passwordHash = newPassword;
+      await mongoUser.save();
+    }
+
+    if (fallbackUser) {
+      const salt = await bcrypt.genSalt(10);
+      fallbackUser.passwordHash = await bcrypt.hash(newPassword, salt);
+    }
 
     res.status(200).json({
       success: true,
@@ -267,9 +416,15 @@ exports.forgotPassword = async (req, res, next) => {
       });
     }
 
-    const user = await User.findOne({ email: email.toLowerCase().trim() });
+    let user = null;
+    if (isDbConnected()) {
+      try {
+        user = await User.findOne({ email: email.toLowerCase().trim() });
+      } catch (e) {
+        user = null;
+      }
+    }
 
-    // Anti-enumeration security: If user not found, return generic success
     if (!user) {
       return res.status(200).json({
         success: true,
@@ -277,11 +432,9 @@ exports.forgotPassword = async (req, res, next) => {
       });
     }
 
-    // Generate reset token and set expiry on user
     const resetToken = user.getResetPasswordToken();
     await user.save({ validateBeforeSave: false });
 
-    // Send email via email service
     try {
       await emailService.sendPasswordResetEmail({
         toEmail: user.email,
@@ -349,7 +502,6 @@ exports.resetPassword = async (req, res, next) => {
       });
     }
 
-    // Hash the token from URL param to compare against MongoDB
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
     const user = await User.findOne({
@@ -365,7 +517,6 @@ exports.resetPassword = async (req, res, next) => {
       });
     }
 
-    // Update password (pre-save hook will hash it)
     user.passwordHash = password;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;

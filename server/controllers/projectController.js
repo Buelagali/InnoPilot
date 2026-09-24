@@ -2,6 +2,8 @@ const ProjectIdea = require('../models/ProjectIdea');
 const IdeaVersion = require('../models/IdeaVersion');
 const Problem = require('../models/Problem');
 const aiService = require('../services/ai/AIService');
+const { isDbConnected } = require('../config/db');
+const { projects: fallbackProjects, problems: fallbackProblems } = require('../services/resilientStore');
 
 // @desc    Generate multiple project ideas from a problem (Module 4)
 // @route   POST /api/projects/generate
@@ -34,52 +36,82 @@ exports.generateIdeas = async (req, res, next) => {
 
     // Save generated ideas to database linked to user and problem
     const savedIdeas = [];
-    for (const idea of ideas) {
-      const newIdea = await ProjectIdea.create({
-        userId: req.user.id,
-        problemId: problemId || null,
-        title: idea.title,
-        problemAddressed: idea.problemAddressed,
-        proposedSolution: idea.proposedSolution,
-        targetUsers: idea.targetUsers || [],
-        coreFeatures: idea.coreFeatures || [],
-        aiRole: idea.aiRole || '',
-        techStack: idea.techStack || {},
-        expectedOutcome: idea.expectedOutcome || '',
-        innovationOpportunities: idea.innovationOpportunities || [],
-        difficultyLevel: idea.difficultyLevel || 'Intermediate',
-        estimatedDevelopmentTime: idea.estimatedDevelopmentTime || '3 - 4 Months',
-        domain: problemContext.domain || 'General',
-        currentVersion: 1,
-        isSaved: true,
-      });
+    if (isDbConnected()) {
+      for (const idea of ideas) {
+        const newIdea = await ProjectIdea.create({
+          userId: req.user.id,
+          problemId: problemId || null,
+          title: idea.title,
+          problemAddressed: idea.problemAddressed,
+          proposedSolution: idea.proposedSolution,
+          targetUsers: idea.targetUsers || [],
+          coreFeatures: idea.coreFeatures || [],
+          aiRole: idea.aiRole || '',
+          techStack: idea.techStack || {},
+          expectedOutcome: idea.expectedOutcome || '',
+          innovationOpportunities: idea.innovationOpportunities || [],
+          difficultyLevel: idea.difficultyLevel || 'Intermediate',
+          estimatedDevelopmentTime: idea.estimatedDevelopmentTime || '3 - 4 Months',
+          domain: problemContext.domain || 'General',
+          currentVersion: 1,
+          isSaved: true,
+        });
 
-      // Record Version 1 in IdeaVersion collection
-      await IdeaVersion.create({
-        ideaId: newIdea._id,
-        versionNumber: 1,
-        evolutionAction: 'Initial Generation',
-        changeSummary: 'Base idea created from problem discovery analysis.',
-        snapshot: {
-          title: newIdea.title,
-          problemAddressed: newIdea.problemAddressed,
-          proposedSolution: newIdea.proposedSolution,
-          targetUsers: newIdea.targetUsers,
-          coreFeatures: newIdea.coreFeatures,
-          aiRole: newIdea.aiRole,
-          techStack: newIdea.techStack,
-          expectedOutcome: newIdea.expectedOutcome,
-          innovationOpportunities: newIdea.innovationOpportunities,
-          difficultyLevel: newIdea.difficultyLevel,
-          estimatedDevelopmentTime: newIdea.estimatedDevelopmentTime,
-        },
-      });
+        // Record Version 1 in IdeaVersion collection
+        await IdeaVersion.create({
+          ideaId: newIdea._id,
+          versionNumber: 1,
+          evolutionAction: 'Initial Generation',
+          changeSummary: 'Base idea created from problem discovery analysis.',
+          snapshot: {
+            title: newIdea.title,
+            problemAddressed: newIdea.problemAddressed,
+            proposedSolution: newIdea.proposedSolution,
+            targetUsers: newIdea.targetUsers,
+            coreFeatures: newIdea.coreFeatures,
+            aiRole: newIdea.aiRole,
+            techStack: newIdea.techStack,
+            expectedOutcome: newIdea.expectedOutcome,
+            innovationOpportunities: newIdea.innovationOpportunities,
+            difficultyLevel: newIdea.difficultyLevel,
+            estimatedDevelopmentTime: newIdea.estimatedDevelopmentTime,
+          },
+        });
 
-      savedIdeas.push(newIdea);
-    }
+        savedIdeas.push(newIdea);
+      }
 
-    if (problemId) {
-      await Problem.findByIdAndUpdate(problemId, { status: 'ideas_generated' });
+      if (problemId) {
+        await Problem.findByIdAndUpdate(problemId, { status: 'ideas_generated' });
+      }
+    } else {
+      // Resilient fallback storage
+      for (const idea of ideas) {
+        const ideaId = `proj_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+        const newIdea = {
+          _id: ideaId,
+          userId: req.user.id,
+          problemId: problemId || null,
+          title: idea.title,
+          problemAddressed: idea.problemAddressed,
+          proposedSolution: idea.proposedSolution,
+          targetUsers: idea.targetUsers || [],
+          coreFeatures: idea.coreFeatures || [],
+          aiRole: idea.aiRole || '',
+          techStack: idea.techStack || {},
+          expectedOutcome: idea.expectedOutcome || '',
+          innovationOpportunities: idea.innovationOpportunities || [],
+          difficultyLevel: idea.difficultyLevel || 'Intermediate',
+          estimatedDevelopmentTime: idea.estimatedDevelopmentTime || '3 - 4 Months',
+          domain: problemContext.domain || 'General',
+          currentVersion: 1,
+          isSaved: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
+        fallbackProjects.push(newIdea);
+        savedIdeas.push(newIdea);
+      }
     }
 
     res.status(201).json({
@@ -253,6 +285,15 @@ exports.restoreIdeaVersion = async (req, res, next) => {
 // @access  Private
 exports.getProjects = async (req, res, next) => {
   try {
+    if (!isDbConnected()) {
+      const userProjects = fallbackProjects.filter((p) => String(p.userId) === String(req.user.id));
+      return res.status(200).json({
+        success: true,
+        count: userProjects.length,
+        projects: userProjects,
+      });
+    }
+
     const { domain, search, sort, difficulty } = req.query;
     const query = { userId: req.user.id };
 
