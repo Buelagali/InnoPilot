@@ -67,14 +67,6 @@ exports.register = async (req, res, next) => {
       existingUser = resilientUsers.get(normalizedEmail);
     }
 
-    if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        message: 'An account with this email address already exists.',
-        errorCode: 'EMAIL_ALREADY_EXISTS',
-      });
-    }
-
     // Default admin if role explicitly requested as admin, otherwise student
     const assignedRole = role === 'admin' ? 'admin' : 'student';
 
@@ -95,6 +87,85 @@ exports.register = async (req, res, next) => {
       : typeof interests === 'string'
       ? interests.split(',').map((s) => s.trim()).filter(Boolean)
       : [];
+
+    if (existingUser) {
+      // User exists: update their credentials and profile seamlessly so they can immediately sign in with their chosen password
+      let updatedUser = null;
+
+      if (isDbConnected()) {
+        try {
+          const dbUser = await User.findOne({ email: normalizedEmail });
+          if (dbUser) {
+            dbUser.name = name || dbUser.name;
+            dbUser.passwordHash = password; // Mongoose pre-save hook will hash this
+            if (college) dbUser.college = college;
+            if (branch) dbUser.branch = branch;
+            if (parsedSkills.length) dbUser.skills = parsedSkills;
+            if (parsedLanguages.length) dbUser.programmingLanguages = parsedLanguages;
+            if (aimlKnowledge) dbUser.aimlKnowledge = aimlKnowledge;
+            if (webDevKnowledge) dbUser.webDevKnowledge = webDevKnowledge;
+            if (parsedInterests.length) dbUser.interests = parsedInterests;
+            if (experienceLevel) dbUser.experienceLevel = experienceLevel;
+            if (preferredProjectType) dbUser.preferredProjectType = preferredProjectType;
+            if (preferredDuration) dbUser.preferredDuration = preferredDuration;
+            if (teamSize) dbUser.teamSize = Number(teamSize);
+            if (hardwareAvailability) dbUser.hardwareAvailability = hardwareAvailability;
+            if (budget) dbUser.budget = budget;
+            if (isResearchOriented !== undefined) dbUser.isResearchOriented = isResearchOriented;
+            await dbUser.save();
+            updatedUser = dbUser;
+          }
+        } catch (dbErr) {
+          console.warn('MongoDB update notice in register:', dbErr.message);
+        }
+      }
+
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash(password, salt);
+      const existingId = (existingUser._id || existingUser.id || new mongoose.Types.ObjectId()).toString();
+
+      const updatedResilientUser = {
+        ...(resilientUsers.get(normalizedEmail) || {}),
+        _id: existingId,
+        id: existingId,
+        name: name || existingUser.name,
+        email: normalizedEmail,
+        passwordHash,
+        role: assignedRole || existingUser.role || 'student',
+        college: college || existingUser.college || '',
+        branch: branch || existingUser.branch || '',
+        skills: parsedSkills.length ? parsedSkills : (existingUser.skills || []),
+        programmingLanguages: parsedLanguages.length ? parsedLanguages : (existingUser.programmingLanguages || []),
+        aimlKnowledge: aimlKnowledge || existingUser.aimlKnowledge || 'Beginner',
+        webDevKnowledge: webDevKnowledge || existingUser.webDevKnowledge || 'Intermediate',
+        interests: parsedInterests.length ? parsedInterests : (existingUser.interests || []),
+        experienceLevel: experienceLevel || existingUser.experienceLevel || '3rd Year',
+        preferredProjectType: preferredProjectType || existingUser.preferredProjectType || 'Major Project',
+        preferredDuration: preferredDuration || existingUser.preferredDuration || '3 - 6 Months',
+        teamSize: Number(teamSize) || existingUser.teamSize || 2,
+        hardwareAvailability: hardwareAvailability || existingUser.hardwareAvailability || 'Standard Laptop',
+        budget: budget || existingUser.budget || 'Zero Budget (Open Source Only)',
+        isResearchOriented: isResearchOriented !== undefined ? isResearchOriented : true,
+        isActive: true,
+        updatedAt: new Date(),
+      };
+
+      resilientUsers.set(normalizedEmail, updatedResilientUser);
+
+      if (!updatedUser) {
+        updatedUser = { ...updatedResilientUser };
+        delete updatedUser.passwordHash;
+      }
+
+      const token = generateToken(updatedUser);
+
+      return res.status(200).json({
+        success: true,
+        message: 'Account profile and password updated successfully.',
+        token,
+        user: updatedUser,
+      });
+    }
 
     let user = null;
 
