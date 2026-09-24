@@ -1,0 +1,23 @@
+{
+  "name": "ai-project-discovery-platform",
+  "version": "1.0.0",
+  "description": "Full-Stack AI Project Discovery & Innovation Platform",
+  "scripts": {
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "build:client": "cd client && npm run build",
+    "start": "cd server && npm start"
+  },
+  "keywords": [
+    "ai",
+    "capstone",
+    "discovery",
+    "innovation",
+    "gemini",
+    "react",
+    "express",
+    "mongodb"
+  ],
+  "author": "InnoPilot",
+  "license": "MIT"
+}
