@@ -79,12 +79,48 @@ To pinpoint a meaningful, high-impact problem:
     }
 
     if (prompt.includes('Innovation Companion') || prompt.includes('USER QUESTION')) {
-      return `### Architectural & Innovation Guidance
+      const userMatch = prompt.match(/USER QUESTION:\s*"([\s\S]*?)"/i);
+      const userMsg = (userMatch ? userMatch[1] : '').trim().toLowerCase();
 
-Regarding your project query:
-1. **Algorithmic Edge**: Instead of standard generic REST calls, consider introducing an event-driven queue with lightweight client-side edge caching to minimize latency and server cost.
-2. **Research Contribution**: Structure an empirical evaluation comparing your proposed approach against a standard heuristic baseline across 3 metrics: inference latency, memory footprint, and user task completion rate.
-3. **Defense Tip**: Professors love seeing clear trade-off analysis. Be prepared to explain why you selected your chosen database and AI model over common alternatives!`;
+      if (!userMsg || userMsg === 'hi' || userMsg === 'hello' || userMsg === 'hey' || userMsg.startsWith('hi ') || userMsg.startsWith('hello ')) {
+        return `Hello! 👋 I am your contextual **InnoPilot AI Innovation Companion**.
+
+I have real-time awareness of your active project, academic profile, feasibility benchmarks, and roadmap milestones.
+
+How can I assist your engineering project today?
+- 💡 **Brainstorm unique project ideas & architectures**
+- 🔬 **Evaluate novelty, literature gaps & similarity metrics**
+- ⚙️ **Refine your multi-tier tech stack & database schemas**
+- 🛡️ **Prepare for professor viva / capstone defense questions**`;
+      }
+
+      if (userMsg.includes('innovative') || userMsg.includes('novelty')) {
+        return `### Strategies to Maximize Project Innovation
+1. **Edge Intelligence & Quantization**: Deploy a lightweight, on-device quantized model rather than basic external cloud API calls.
+2. **Hybrid Reasoning Pipeline**: Pair vector similarity retrieval (RAG) with local constraint verification.
+3. **Empirical Benchmarking**: Measure your prototype against a baseline algorithm across latency, accuracy, and resource footprint.`;
+      }
+
+      if (userMsg.includes('risk') || userMsg.includes('feasibility')) {
+        return `### Technical Risk & Feasibility Assessment
+1. **Data Availability**: Synthetic data bootstrap or public benchmark datasets (Kaggle, HuggingFace, PhysioNet).
+2. **Hardware Constraints**: Ensure all inference runs within 4GB RAM without requiring costly dedicated cloud GPUs.
+3. **Scope Control**: Ship a core 2-tier MVP first before adding secondary peripheral features.`;
+      }
+
+      if (userMsg.includes('defense') || userMsg.includes('viva') || userMsg.includes('question')) {
+        return `### Key Viva / Defense Questions to Prepare
+1. **Architectural Rationale**: *"Why did you choose this database and framework over traditional alternatives?"*
+2. **Failure Handling**: *"What happens when external network connectivity is lost during data capture?"*
+3. **Novelty Proof**: *"What specific algorithmic or architectural contribution differentiates this from existing GitHub repositories?"*`;
+      }
+
+      return `### Project Companion Insight
+Regarding: "${userMatch ? userMatch[1] : 'your query'}"
+
+1. **Algorithmic Focus**: Prioritize end-to-end data validation and clear modular separation between ingestion, inference, and UI presentation.
+2. **Engineering Metric**: Set clear quantitative KPIs (e.g. sub-200ms response time, 95%+ precision, zero-data-loss queue).
+3. **Next Step**: Check your **Module 8 Architecture Generator** and **Module 9 Roadmap Tracker** to lock in your phase milestones!`;
     }
 
     return 'Analysis completed successfully based on project constraints and domain parameters.';

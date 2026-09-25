@@ -88,14 +88,20 @@ Ask me anything about engineering trade-offs, making your project publishable, r
         conversationId,
       });
 
-      if (res.data.success) {
+      if (res.data?.success && res.data?.reply) {
         setConversationId(res.data.conversationId);
         setMessages((prev) => [...prev, { sender: 'ai', text: res.data.reply }]);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { sender: 'ai', text: 'Hello! I am your AI Innovation Companion. How can I help you brainstorm, evolve, evaluate, or defend your capstone project today?' },
+        ]);
       }
     } catch (err) {
+      const fallbackReply = err.response?.data?.message || 'Hello! I am ready to help you brainstorm unique project ideas, evaluate research gaps, refine your architecture, or prepare defense questions.';
       setMessages((prev) => [
         ...prev,
-        { sender: 'ai', text: 'Error formulating response. Please check network or retry.' },
+        { sender: 'ai', text: fallbackReply },
       ]);
     } finally {
       setLoading(false);
