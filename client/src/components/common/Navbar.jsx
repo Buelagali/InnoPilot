@@ -36,19 +36,33 @@ const Navbar = () => {
     { label: 'Project Library', path: '/library', icon: Lightbulb },
   ];
 
+  const isHomePage = location.pathname === '/';
+
   return (
-    <header className="sticky top-0 z-40 w-full glass-panel border-b border-white/10 px-4 lg:px-8 py-3">
+    <header className={`sticky top-0 z-40 w-full px-4 lg:px-8 py-3 transition-colors ${
+      isHomePage 
+        ? 'bg-white/80 backdrop-blur-xl border-b border-slate-200/80 shadow-xs' 
+        : 'glass-panel border-b border-white/10'
+    }`}>
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Brand Logo */}
         <Link to={isAuthenticated ? '/dashboard' : '/'} className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-md shadow-indigo-500/25 group-hover:scale-105 transition-transform">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div>
-            <span className="text-xl font-extrabold tracking-wider bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent font-heading uppercase">
+            <span className={`text-xl font-extrabold tracking-wider font-heading uppercase ${
+              isHomePage
+                ? 'bg-gradient-to-r from-indigo-700 via-purple-700 to-blue-700 bg-clip-text text-transparent'
+                : 'bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent'
+            }`}>
               INNOPILOT
             </span>
-            <span className="hidden sm:inline-block ml-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">
+            <span className={`hidden sm:inline-block ml-2 text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider ${
+              isHomePage
+                ? 'bg-indigo-50 text-indigo-700 border border-indigo-200/80'
+                : 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+            }`}>
               AI Capstone
             </span>
           </div>
@@ -56,11 +70,17 @@ const Navbar = () => {
 
         {/* Active Project Pill on Desktop */}
         {isAuthenticated && activeProject && (
-          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/60 border border-indigo-500/30 text-xs text-slate-300 max-w-sm truncate">
+          <div className={`hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs max-w-sm truncate ${
+            isHomePage
+              ? 'bg-slate-100/90 border border-indigo-200 text-slate-700'
+              : 'bg-slate-900/60 border border-indigo-500/30 text-slate-300'
+          }`}>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span className="text-slate-400">Active:</span>
-            <span className="font-medium text-white truncate">{activeProject.title}</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-indigo-900/60 text-indigo-300 font-mono">
+            <span className={isHomePage ? 'text-slate-500' : 'text-slate-400'}>Active:</span>
+            <span className={`font-medium truncate ${isHomePage ? 'text-slate-900' : 'text-white'}`}>{activeProject.title}</span>
+            <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
+              isHomePage ? 'bg-indigo-100 text-indigo-700' : 'bg-indigo-900/60 text-indigo-300'
+            }`}>
               v{activeProject.currentVersion || 1}
             </span>
           </div>
@@ -79,8 +99,12 @@ const Navbar = () => {
                     to={link.path}
                     className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
                       isActive
-                        ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 shadow-inner'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                        ? isHomePage
+                          ? 'bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-xs'
+                          : 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 shadow-inner'
+                        : isHomePage
+                          ? 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+                          : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -94,8 +118,10 @@ const Navbar = () => {
                   to="/admin"
                   className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
                     location.pathname.startsWith('/admin')
-                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                      : 'text-amber-400/80 hover:text-amber-300 hover:bg-amber-500/10'
+                      ? 'bg-amber-500/20 text-amber-600 border border-amber-500/30'
+                      : isHomePage
+                        ? 'text-amber-700 hover:text-amber-800 hover:bg-amber-50'
+                        : 'text-amber-400/80 hover:text-amber-300 hover:bg-amber-500/10'
                   }`}
                 >
                   <Shield className="w-4 h-4" />
@@ -107,23 +133,29 @@ const Navbar = () => {
               <div className="relative ml-3">
                 <button
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                  className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-slate-800/60 border border-transparent hover:border-white/10 transition-colors"
+                  className={`flex items-center gap-2 p-1.5 rounded-xl border border-transparent transition-colors ${
+                    isHomePage ? 'hover:bg-slate-100 hover:border-slate-200' : 'hover:bg-slate-800/60 hover:border-white/10'
+                  }`}
                 >
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white text-xs shadow-md">
                     {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
                   </div>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                  <ChevronDown className={`w-3.5 h-3.5 ${isHomePage ? 'text-slate-600' : 'text-slate-400'}`} />
                 </button>
 
                 {profileDropdownOpen && (
                   <div
-                    className="absolute right-0 mt-2 w-56 rounded-2xl glass-dropdown p-2 text-sm z-50 animate-in fade-in slide-in-from-top-2"
+                    className={`absolute right-0 mt-2 w-56 rounded-2xl p-2 text-sm z-50 animate-in fade-in slide-in-from-top-2 ${
+                      isHomePage ? 'bg-white/95 backdrop-blur-xl border border-slate-200 shadow-xl text-slate-800' : 'glass-dropdown'
+                    }`}
                     onMouseLeave={() => setProfileDropdownOpen(false)}
                   >
-                    <div className="px-3 py-2 border-b border-white/10 mb-1">
-                      <p className="font-semibold text-white truncate">{user?.name}</p>
-                      <p className="text-xs text-slate-400 truncate">{user?.email}</p>
-                      <span className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                    <div className={`px-3 py-2 border-b mb-1 ${isHomePage ? 'border-slate-200' : 'border-white/10'}`}>
+                      <p className={`font-semibold truncate ${isHomePage ? 'text-slate-900' : 'text-white'}`}>{user?.name}</p>
+                      <p className={`text-xs truncate ${isHomePage ? 'text-slate-500' : 'text-slate-400'}`}>{user?.email}</p>
+                      <span className={`inline-block mt-1 text-[10px] px-2 py-0.5 rounded border ${
+                        isHomePage ? 'bg-indigo-50 text-indigo-700 border-indigo-200' : 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30'
+                      }`}>
                         {user?.branch || 'Student'}
                       </span>
                     </div>
@@ -131,24 +163,28 @@ const Navbar = () => {
                     <Link
                       to="/profile"
                       onClick={() => setProfileDropdownOpen(false)}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
+                      className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                        isHomePage ? 'text-slate-700 hover:text-slate-900 hover:bg-slate-100' : 'text-slate-300 hover:text-white hover:bg-white/5'
+                      }`}
                     >
-                      <User className="w-4 h-4 text-indigo-400" />
+                      <User className="w-4 h-4 text-indigo-600" />
                       Student Profile
                     </Link>
 
                     <Link
                       to="/assistant"
                       onClick={() => setProfileDropdownOpen(false)}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
+                      className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                        isHomePage ? 'text-slate-700 hover:text-slate-900 hover:bg-slate-100' : 'text-slate-300 hover:text-white hover:bg-white/5'
+                      }`}
                     >
-                      <Sparkles className="w-4 h-4 text-purple-400" />
+                      <Sparkles className="w-4 h-4 text-purple-600" />
                       AI Companion
                     </Link>
 
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition-colors mt-1"
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-rose-600 hover:text-rose-700 hover:bg-rose-50 transition-colors mt-1"
                     >
                       <LogOut className="w-4 h-4" />
                       Logout
@@ -161,13 +197,17 @@ const Navbar = () => {
             <div className="flex items-center gap-3">
               <Link
                 to="/login"
-                className="px-4 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                  isHomePage
+                    ? 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+                    : 'text-slate-300 hover:text-white hover:bg-white/5'
+                }`}
               >
                 Sign In
               </Link>
               <Link
                 to="/register"
-                className="px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/25 hover:from-indigo-500 hover:to-purple-500 transition-all"
+                className="px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 text-white shadow-md shadow-indigo-500/20 hover:shadow-indigo-500/30 hover:scale-[1.02] transition-all"
               >
                 Get Started
               </Link>
@@ -178,7 +218,11 @@ const Navbar = () => {
         {/* Mobile Hamburger Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+          className={`md:hidden p-2 rounded-lg transition-colors ${
+            isHomePage
+              ? 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+              : 'text-slate-400 hover:text-white hover:bg-slate-800'
+          }`}
           aria-label="Toggle navigation menu"
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
