@@ -10,7 +10,6 @@ import {
   Layers,
   Database,
   ShieldCheck,
-  CheckCircle,
   TrendingUp,
   Cpu,
 } from 'lucide-react';
@@ -64,19 +63,19 @@ const ProblemAnalyzer = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6 text-[#2D2530]">
       <WorkflowStepIndicator currentStepId="analyzer" />
 
       {/* Header */}
       <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fce4ec] text-[#e91e63] border border-[#f3c5d3] text-xs font-semibold mb-2">
-          <Search className="w-3.5 h-3.5 text-[#e91e63]" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F0F9FF] text-[#0284C7] border border-[#BAE6FD] text-xs font-semibold mb-2">
+          <Search className="w-3.5 h-3.5 text-[#0EA5E9]" />
           <span>Module 3 • AI Problem Analyzer</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#3a2630] tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#2D2530] tracking-tight font-heading">
           Analyze Any Problem Statement
         </h1>
-        <p className="text-xs sm:text-sm text-[#6b5560] mt-1 max-w-2xl">
+        <p className="text-xs sm:text-sm text-[#5E5364] mt-1 max-w-2xl">
           Enter a rough problem statement or friction point. The AI performs an architectural critique to identify root causes, data requirements, existing solution limits, and technical feasibility.
         </p>
       </div>
@@ -89,17 +88,17 @@ const ProblemAnalyzer = () => {
       )}
 
       {/* Input Form Card */}
-      <GlassCard className="p-6 sm:p-8 border-[#f3c5d3] bg-white/90">
+      <GlassCard className="p-6 sm:p-8 border-[#BAE6FD] bg-white shadow-sm">
         <form onSubmit={handleAnalyze} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-[#3a2630] mb-1">
+              <label className="block text-xs font-semibold text-[#2D2530] mb-1">
                 Domain / Field
               </label>
               <select
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white text-[#3a2630] border-[#f3c5d3]"
+                className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white text-[#2D2530] border-[#BAE6FD]"
               >
                 <option value="Healthcare & Medicine">Healthcare & Medicine</option>
                 <option value="Education & Accessibility">Education & Accessibility</option>
@@ -113,7 +112,7 @@ const ProblemAnalyzer = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#3a2630] mb-1">
+              <label className="block text-xs font-semibold text-[#2D2530] mb-1">
                 Working Title (Optional)
               </label>
               <input
@@ -121,13 +120,13 @@ const ProblemAnalyzer = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g., Rural Clinic Triage Latency"
-                className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm text-[#3a2630] placeholder-[#886a7a] border-[#f3c5d3]"
+                className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm text-[#2D2530] placeholder-[#8E8295] border-[#BAE6FD]"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-[#3a2630] mb-1">
+            <label className="block text-xs font-semibold text-[#2D2530] mb-1">
               Problem Description *
             </label>
             <textarea
@@ -136,20 +135,20 @@ const ProblemAnalyzer = () => {
               value={problemText}
               onChange={(e) => setProblemText(e.target.value)}
               placeholder="Describe the operational breakdown, workflow inefficiency, or safety hazard you noticed..."
-              className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm leading-relaxed text-[#3a2630] placeholder-[#886a7a] border-[#f3c5d3]"
+              className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm leading-relaxed text-[#2D2530] placeholder-[#8E8295] border-[#BAE6FD]"
             />
           </div>
 
           {/* Quick Sample Prompts */}
           <div>
-            <span className="text-[11px] text-[#6b5560] block mb-1.5 font-medium">Or try an example problem:</span>
+            <span className="text-[11px] text-[#5E5364] block mb-1.5 font-medium">Or try an example problem:</span>
             <div className="flex flex-wrap gap-2">
               {sampleProblems.map((sp, i) => (
                 <button
                   type="button"
                   key={i}
                   onClick={() => setProblemText(sp)}
-                  className="text-left text-[11px] px-3 py-1.5 rounded-xl bg-[#fff8fa] hover:bg-[#fce4ec] text-[#6b5560] hover:text-[#3a2630] border border-[#f3c5d3] transition-all line-clamp-1 max-w-md"
+                  className="text-left text-[11px] px-3 py-1.5 rounded-xl bg-[#F0F9FF] hover:bg-[#E0F2FE] text-[#0284C7] border border-[#BAE6FD] transition-all line-clamp-1 max-w-md font-medium"
                 >
                   "{sp}"
                 </button>
@@ -160,7 +159,7 @@ const ProblemAnalyzer = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] hover:from-[#d81b60] hover:to-[#e91e63] text-white font-semibold text-xs sm:text-sm shadow-xl shadow-pink-500/20 hover:scale-105 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#0284C7] text-white font-semibold text-xs sm:text-sm shadow-xl shadow-sky-500/20 hover:scale-105 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -179,98 +178,98 @@ const ProblemAnalyzer = () => {
 
       {analysisReport && (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
-          <GlassCard className="p-6 sm:p-8 border-[#f3c5d3] bg-white/95 shadow-xl shadow-pink-500/5">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[#f3c5d3]">
+          <GlassCard className="p-6 sm:p-8 border-[#BAE6FD] bg-white shadow-xl shadow-sky-500/5">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[#F1E4EC]">
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <Badge variant="pink">{domain}</Badge>
+                  <Badge variant="sky">{domain}</Badge>
                   <Badge
                     variant={
                       analysisReport.technicalComplexity?.level === 'Low'
-                        ? 'success'
+                        ? 'mint'
                         : analysisReport.technicalComplexity?.level === 'Moderate'
-                        ? 'pink'
-                        : 'warning'
+                        ? 'sky'
+                        : 'gold'
                     }
                   >
                     Complexity: {analysisReport.technicalComplexity?.level || 'Moderate'}
                   </Badge>
                 </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-[#3a2630]">
+                <h2 className="text-xl sm:text-2xl font-bold text-[#2D2530] font-heading">
                   Problem Architectural Analysis Report
                 </h2>
               </div>
 
               <button
                 onClick={() => navigate(`/generate?problemId=${problemRecord?._id}`)}
-                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] hover:from-[#d81b60] hover:to-[#e91e63] text-white text-xs sm:text-sm font-semibold shadow-lg shadow-pink-500/20 hover:scale-105 transition-all flex items-center gap-1.5"
+                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#E91E63] via-[#FB923C] to-[#F59E0B] text-white text-xs sm:text-sm font-semibold shadow-lg shadow-orange-500/20 hover:scale-105 transition-all flex items-center gap-1.5"
               >
                 <span>Generate Solution Ideas</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Analysis Breakdown Grid */}
+            {/* Analysis Breakdown Grid with Multi-Color Pastel Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6">
-              {/* Problem Clarity & Root Cause */}
+              {/* Column 1: Sky Blue Cards */}
               <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#e91e63] flex items-center gap-1.5">
+                <div className="p-4 rounded-xl bg-[#F0F9FF] border border-[#BAE6FD] space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#0284C7] flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5" /> Problem Clarity
                   </span>
-                  <p className="text-xs text-[#3a2630] leading-relaxed">
+                  <p className="text-xs text-[#2D2530] leading-relaxed">
                     {analysisReport.problemClarity}
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#ec407a] flex items-center gap-1.5">
+                <div className="p-4 rounded-xl bg-[#F0F9FF] border border-[#BAE6FD] space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#0369A1] flex items-center gap-1.5">
                     <Layers className="w-3.5 h-3.5" /> Root Cause
                   </span>
-                  <p className="text-xs text-[#3a2630] leading-relaxed">
+                  <p className="text-xs text-[#2D2530] leading-relaxed">
                     {analysisReport.rootCause}
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#d81b60] flex items-center gap-1.5">
+                <div className="p-4 rounded-xl bg-[#F0F9FF] border border-[#BAE6FD] space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#0284C7] flex items-center gap-1.5">
                     <TrendingUp className="w-3.5 h-3.5" /> Systemic Impact
                   </span>
-                  <p className="text-xs text-[#3a2630] leading-relaxed">
+                  <p className="text-xs text-[#2D2530] leading-relaxed">
                     {analysisReport.impact}
                   </p>
                 </div>
               </div>
 
-              {/* Users, Limitations, Stakeholders */}
+              {/* Column 2: Gold & Peach Cards */}
               <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#e91e63] flex items-center gap-1.5">
+                <div className="p-4 rounded-xl bg-[#FFFBEB] border border-[#FDE68A] space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#D97706] flex items-center gap-1.5">
                     <Users className="w-3.5 h-3.5" /> Target Users & Stakeholders
                   </span>
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {(analysisReport.targetUsers || []).map((u, i) => (
-                      <Badge key={i} variant="pink">{u}</Badge>
+                      <Badge key={i} variant="gold">{u}</Badge>
                     ))}
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#ec407a] flex items-center gap-1.5">
+                <div className="p-4 rounded-xl bg-[#FFF7ED] border border-[#FED7AA] space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#EA580C] flex items-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5" /> Limitations of Current Tools
                   </span>
-                  <ul className="list-disc list-inside space-y-1 text-xs text-[#3a2630]">
+                  <ul className="list-disc list-inside space-y-1 text-xs text-[#2D2530]">
                     {(analysisReport.limitations || []).map((lim, i) => (
                       <li key={i}>{lim}</li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#d81b60] flex items-center gap-1.5">
+                <div className="p-4 rounded-xl bg-[#FFFBEB] border border-[#FDE68A] space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#B45309] flex items-center gap-1.5">
                     <Database className="w-3.5 h-3.5" /> Required Data & Datasets
                   </span>
-                  <ul className="list-disc list-inside space-y-1 text-xs text-[#3a2630]">
+                  <ul className="list-disc list-inside space-y-1 text-xs text-[#2D2530]">
                     {(analysisReport.requiredData || []).map((d, i) => (
                       <li key={i}>{d}</li>
                     ))}
@@ -278,25 +277,25 @@ const ProblemAnalyzer = () => {
                 </div>
               </div>
 
-              {/* Technical Complexity & Solution Directions */}
+              {/* Column 3: Mint Green & Solution Directions */}
               <div className="space-y-4 md:col-span-2 lg:col-span-1">
-                <div className="p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#e91e63] flex items-center gap-1.5">
+                <div className="p-4 rounded-xl bg-[#F0FDF4] border border-[#BBF7D0] space-y-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#15803D] flex items-center gap-1.5">
                     <Cpu className="w-3.5 h-3.5" /> Technical Complexity Rationale
                   </span>
-                  <p className="text-xs text-[#3a2630] leading-relaxed">
+                  <p className="text-xs text-[#2D2530] leading-relaxed">
                     {analysisReport.technicalComplexity?.rationale}
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#fce4ec]/50 border border-[#f3c5d3] space-y-3">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#e91e63] block">
+                <div className="p-4 rounded-xl bg-[#FFF1F6] border border-[#FBCFE8] space-y-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#E91E63] block">
                     Possible Solution Directions:
                   </span>
                   <div className="space-y-2">
                     {(analysisReport.solutionDirections || []).map((dir, i) => (
-                      <div key={i} className="p-2.5 rounded-lg bg-white text-xs text-[#3a2630] border border-[#f3c5d3]">
-                        <span className="font-semibold text-[#e91e63] block mb-0.5">Direction {i + 1}</span>
+                      <div key={i} className="p-2.5 rounded-lg bg-white text-xs text-[#2D2530] border border-[#FBCFE8]">
+                        <span className="font-semibold text-[#E91E63] block mb-0.5">Direction {i + 1}</span>
                         {dir}
                       </div>
                     ))}

@@ -2,8 +2,9 @@ import React, { useEffect, useRef } from 'react';
 
 /**
  * HeroCanvasBackground
- * Interactive canvas with soft glowing particles, pastel pink ribbons, and 3D floating elements
- * with real-time mouse parallax.
+ * Interactive multi-color pastel canvas with soft glowing particles, multi-hue ribbon waves,
+ * translucent floating glass spheres (pink, peach, mint, sky blue, gold), 3D crystal cubes,
+ * and curved orbital lines with real-time mouse parallax.
  */
 const HeroCanvasBackground = ({ mousePos = { x: 0, y: 0 } }) => {
   const canvasRef = useRef(null);
@@ -24,16 +25,16 @@ const HeroCanvasBackground = ({ mousePos = { x: 0, y: 0 } }) => {
     };
     window.addEventListener('resize', handleResize);
 
-    // Particle system configuration with Pink/Rose tones
-    const particleCount = 42;
+    // Particle system configuration with Light Multi-Color Pastel tones
+    const particleCount = 48;
     const particles = [];
 
     const colors = [
-      'rgba(233, 30, 99, 0.4)',   // primary pink
-      'rgba(244, 143, 177, 0.45)', // soft blush pink
-      'rgba(251, 113, 133, 0.4)',  // rose coral
-      'rgba(252, 228, 236, 0.5)',  // light blush
-      'rgba(244, 63, 94, 0.35)',   // vibrant rose
+      'rgba(244, 114, 182, 0.45)', // Soft Pink
+      'rgba(251, 146, 60, 0.4)',   // Peach / Light Orange
+      'rgba(245, 158, 11, 0.35)',  // Soft Gold
+      'rgba(16, 185, 129, 0.38)',  // Mint Green
+      'rgba(14, 165, 233, 0.4)',   // Light Sky Blue
     ];
 
     for (let i = 0; i < particleCount; i++) {
@@ -42,9 +43,9 @@ const HeroCanvasBackground = ({ mousePos = { x: 0, y: 0 } }) => {
         y: Math.random() * height,
         radius: Math.random() * 4 + 2,
         color: colors[Math.floor(Math.random() * colors.length)],
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        alpha: Math.random() * 0.6 + 0.2,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        alpha: Math.random() * 0.55 + 0.2,
         pulseSpeed: Math.random() * 0.02 + 0.01,
         phase: Math.random() * Math.PI * 2,
         depth: Math.random() * 0.8 + 0.2,
@@ -57,7 +58,7 @@ const HeroCanvasBackground = ({ mousePos = { x: 0, y: 0 } }) => {
       time += 0.015;
       ctx.clearRect(0, 0, width, height);
 
-      // Draw floating particles with mouse parallax
+      // Draw floating pastel particles with mouse parallax
       particles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
@@ -98,84 +99,87 @@ const HeroCanvasBackground = ({ mousePos = { x: 0, y: 0 } }) => {
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 select-none">
-      {/* 1. Base Clean White / Warm Blush Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#ffffff] via-[#fffdfd] to-[#fff8fa]"></div>
+      {/* 1. Base Clean White / Subtle Multi-Pastel Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#FFFFFF] via-[#FFFDFE] to-[#FAF8FB]"></div>
 
       {/* 2. Canvas for particle sparkles and glowing nodes */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-80" />
 
-      {/* 3. Fluid Animated Pastel Pink Waves & Flowing Ribbons (SVG) */}
+      {/* 3. Fluid Multi-Color Pastel Waves & Flowing Ribbons (SVG) */}
       <div
-        className="absolute inset-0 opacity-85 transition-transform duration-700 ease-out"
+        className="absolute inset-0 opacity-80 transition-transform duration-700 ease-out"
         style={{
           transform: `translate3d(${pX * 0.4}px, ${pY * 0.4}px, 0)`,
         }}
       >
         <svg
-          className="absolute -bottom-10 left-0 w-full h-[600px] animate-ribbon-wave"
-          viewBox="0 0 1440 600"
+          className="absolute -bottom-10 left-0 w-full h-[620px] animate-ribbon-wave"
+          viewBox="0 0 1440 620"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
         >
           <defs>
-            <linearGradient id="waveGradPink1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#fce4ec" stopOpacity="0.65" />
-              <stop offset="50%" stopColor="#fbcfe8" stopOpacity="0.45" />
-              <stop offset="100%" stopColor="#ffe4e6" stopOpacity="0.4" />
+            <linearGradient id="multiWaveGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#BAE6FD" stopOpacity="0.4" />   {/* Sky Blue */}
+              <stop offset="35%" stopColor="#BBF7D0" stopOpacity="0.35" />  {/* Mint Green */}
+              <stop offset="70%" stopColor="#FED7AA" stopOpacity="0.4" />   {/* Peach */}
+              <stop offset="100%" stopColor="#FBCFE8" stopOpacity="0.45" /> {/* Pink */}
             </linearGradient>
-            <linearGradient id="waveGradPink2" x1="100%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#fff1f2" stopOpacity="0.6" />
-              <stop offset="60%" stopColor="#fdf2f8" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#fce4ec" stopOpacity="0.45" />
+
+            <linearGradient id="multiWaveGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#FFF1F6" stopOpacity="0.6" />
+              <stop offset="50%" stopColor="#FEF3C7" stopOpacity="0.4" />  {/* Soft Gold */}
+              <stop offset="100%" stopColor="#E0F2FE" stopOpacity="0.5" /> {/* Sky */}
             </linearGradient>
-            <linearGradient id="waveRibbonPink" x1="0%" y1="50%" x2="100%" y2="50%">
-              <stop offset="0%" stopColor="#f48fb1" stopOpacity="0.5" />
-              <stop offset="35%" stopColor="#e91e63" stopOpacity="0.45" />
-              <stop offset="70%" stopColor="#fb7185" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#fce4ec" stopOpacity="0.5" />
+
+            <linearGradient id="multiRibbonGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.4" />
+              <stop offset="30%" stopColor="#4ADE80" stopOpacity="0.4" />
+              <stop offset="60%" stopColor="#FB923C" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="#F472B6" stopOpacity="0.45" />
             </linearGradient>
           </defs>
 
           {/* Flowing Back Wave */}
           <path
-            d="M0,280 C320,180 580,380 900,240 C1180,120 1340,320 1440,260 L1440,600 L0,600 Z"
-            fill="url(#waveGradPink1)"
+            d="M0,280 C320,180 580,380 900,240 C1180,120 1340,320 1440,260 L1440,620 L0,620 Z"
+            fill="url(#multiWaveGrad1)"
             className="transition-all duration-1000"
           />
 
           {/* Intersecting Mid Wave */}
           <path
-            d="M0,350 C380,480 720,220 1050,370 C1260,460 1380,340 1440,380 L1440,600 L0,600 Z"
-            fill="url(#waveGradPink2)"
+            d="M0,350 C380,480 720,220 1050,370 C1260,460 1380,340 1440,380 L1440,620 L0,620 Z"
+            fill="url(#multiWaveGrad2)"
           />
 
           {/* Dynamic 3D Curved Ribbon Stroke */}
           <path
             d="M-50,220 C280,100 480,440 850,280 C1180,140 1380,390 1500,200"
-            stroke="url(#waveRibbonPink)"
-            strokeWidth="38"
+            stroke="url(#multiRibbonGrad)"
+            strokeWidth="36"
             strokeLinecap="round"
             fill="none"
-            className="opacity-70 blur-[1px]"
+            className="opacity-75 blur-[1px]"
           />
         </svg>
       </div>
 
-      {/* 4. Large Translucent Floating Glass Spheres in Soft Pink */}
-      {/* Top Left Sphere */}
+      {/* 4. Multi-Color Translucent Floating Glass Spheres */}
+      {/* Top Left Sky Blue Sphere */}
       <div
-        className="absolute top-16 -left-12 w-64 h-64 rounded-full bg-gradient-to-tr from-pink-300/30 via-rose-200/25 to-pink-100/40 backdrop-blur-xl border border-white/80 shadow-2xl shadow-pink-200/30 animate-float-slow transition-transform duration-500 ease-out"
+        className="absolute top-16 -left-12 w-60 h-60 rounded-full bg-gradient-to-tr from-sky-200/35 via-sky-100/25 to-white/60 backdrop-blur-xl border border-white/80 shadow-2xl shadow-sky-200/30 animate-float-slow transition-transform duration-500 ease-out"
         style={{
           transform: `translate3d(${pX * 0.7}px, ${pY * 0.7}px, 0)`,
         }}
       >
-        <div className="absolute top-6 left-6 w-20 h-20 rounded-full bg-white/70 blur-md"></div>
+        <div className="absolute top-6 left-6 w-18 h-18 rounded-full bg-white/70 blur-md"></div>
       </div>
 
-      {/* Top Center-Right Sphere */}
+      {/* Top Center-Right Peach / Gold Sphere */}
       <div
-        className="absolute top-24 right-1/4 w-36 h-36 rounded-full bg-gradient-to-br from-rose-300/30 via-pink-200/30 to-rose-100/40 backdrop-blur-md border border-white/80 shadow-xl shadow-rose-200/25 animate-float-medium transition-transform duration-500 ease-out"
+        className="absolute top-20 right-1/4 w-36 h-36 rounded-full bg-gradient-to-br from-amber-200/30 via-orange-100/30 to-rose-100/40 backdrop-blur-md border border-white/80 shadow-xl shadow-orange-200/25 animate-float-medium transition-transform duration-500 ease-out"
         style={{
           transform: `translate3d(${-pX * 0.5}px, ${-pY * 0.5}px, 0)`,
         }}
@@ -183,9 +187,9 @@ const HeroCanvasBackground = ({ mousePos = { x: 0, y: 0 } }) => {
         <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/75 blur-sm"></div>
       </div>
 
-      {/* Far Right Large Orb */}
+      {/* Far Right Soft Pink / Lavender Orb */}
       <div
-        className="absolute top-1/2 -right-16 w-80 h-80 rounded-full bg-gradient-to-tl from-pink-200/30 via-rose-200/25 to-pink-100/35 backdrop-blur-2xl border border-white/60 shadow-2xl shadow-pink-200/35 animate-float-reverse transition-transform duration-500 ease-out"
+        className="absolute top-1/2 -right-16 w-80 h-80 rounded-full bg-gradient-to-tl from-pink-200/35 via-rose-100/30 to-purple-100/20 backdrop-blur-2xl border border-white/70 shadow-2xl shadow-pink-200/30 animate-float-reverse transition-transform duration-500 ease-out"
         style={{
           transform: `translate3d(${pX * 0.6}px, ${pY * 0.6}px, 0)`,
         }}
@@ -193,16 +197,16 @@ const HeroCanvasBackground = ({ mousePos = { x: 0, y: 0 } }) => {
         <div className="absolute top-8 left-8 w-24 h-24 rounded-full bg-white/60 blur-lg"></div>
       </div>
 
-      {/* Bottom Floating Spheres */}
+      {/* Bottom Mint Green Sphere */}
       <div
-        className="absolute bottom-24 left-1/3 w-28 h-28 rounded-full bg-gradient-to-tr from-rose-200/35 via-pink-100/30 to-rose-200/30 backdrop-blur-md border border-white/70 shadow-lg animate-float-gentle transition-transform duration-500 ease-out"
+        className="absolute bottom-20 left-1/3 w-28 h-28 rounded-full bg-gradient-to-tr from-emerald-200/35 via-teal-100/30 to-green-100/30 backdrop-blur-md border border-white/70 shadow-lg shadow-emerald-200/20 animate-float-gentle transition-transform duration-500 ease-out"
         style={{
           transform: `translate3d(${-pX * 0.8}px, ${-pY * 0.8}px, 0)`,
         }}
       />
 
-      {/* 5. Translucent 3D Floating Isometric Cubes in Pink & Rose Glass */}
-      {/* Left 3D Cube */}
+      {/* 5. Translucent 3D Floating Isometric Cubes & Crystals */}
+      {/* Left 3D Cube (Peach/Orange) */}
       <div
         className="absolute top-1/3 left-8 w-16 h-16 animate-cube-spin transition-transform duration-700 ease-out"
         style={{
@@ -210,32 +214,32 @@ const HeroCanvasBackground = ({ mousePos = { x: 0, y: 0 } }) => {
           transform: `translate3d(${pX * 0.9}px, ${pY * 0.9}px, 0)`,
         }}
       >
-        <div className="relative w-full h-full rounded-2xl bg-gradient-to-tr from-pink-400/40 to-rose-300/50 backdrop-blur-md border border-white/90 shadow-xl shadow-pink-300/30 rotate-12 flex items-center justify-center">
+        <div className="relative w-full h-full rounded-2xl bg-gradient-to-tr from-orange-300/45 to-pink-300/40 backdrop-blur-md border border-white/90 shadow-xl shadow-orange-300/25 rotate-12 flex items-center justify-center">
           <div className="w-8 h-8 rounded-lg bg-white/50 blur-xs"></div>
         </div>
       </div>
 
-      {/* Right 3D Crystal Diamond */}
+      {/* Right 3D Crystal Diamond (Mint/Sky) */}
       <div
-        className="absolute top-20 right-16 w-14 h-14 animate-cube-spin transition-transform duration-700 ease-out"
+        className="absolute top-24 right-16 w-14 h-14 animate-cube-spin transition-transform duration-700 ease-out"
         style={{
           perspective: '600px',
           transform: `translate3d(${-pX * 1.1}px, ${-pY * 1.1}px, 0)`,
         }}
       >
-        <div className="relative w-full h-full rounded-xl bg-gradient-to-br from-rose-400/40 to-pink-300/50 backdrop-blur-md border border-white/90 shadow-lg shadow-rose-300/30 -rotate-45 flex items-center justify-center">
+        <div className="relative w-full h-full rounded-xl bg-gradient-to-br from-emerald-300/40 to-sky-300/45 backdrop-blur-md border border-white/90 shadow-lg shadow-sky-300/25 -rotate-45 flex items-center justify-center">
           <div className="w-6 h-6 rounded-md bg-white/60 blur-xs"></div>
         </div>
       </div>
 
-      {/* Lower Right 3D Crystal Cube */}
+      {/* Lower Right 3D Crystal Cube (Gold/Yellow) */}
       <div
-        className="absolute bottom-40 right-1/3 w-12 h-12 animate-float-medium transition-transform duration-700 ease-out"
+        className="absolute bottom-36 right-1/3 w-12 h-12 animate-float-medium transition-transform duration-700 ease-out"
         style={{
           transform: `translate3d(${pX * 0.6}px, ${pY * 0.6}px, 0) rotate(25deg)`,
         }}
       >
-        <div className="w-full h-full rounded-xl bg-gradient-to-tr from-pink-400/35 to-rose-300/45 backdrop-blur-md border border-white/90 shadow-lg shadow-pink-300/25"></div>
+        <div className="w-full h-full rounded-xl bg-gradient-to-tr from-amber-300/40 to-yellow-200/50 backdrop-blur-md border border-white/90 shadow-lg shadow-amber-300/25"></div>
       </div>
     </div>
   );

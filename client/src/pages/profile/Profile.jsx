@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { authAPI } from '../../services/api';
-import { User, KeyRound, Check, Sparkles, AlertCircle } from 'lucide-react';
+import { User, KeyRound, Check, Sparkles, AlertCircle, ShieldCheck, BookOpen, Layers } from 'lucide-react';
 import { GlassCard } from '../../components/common/GlassCard';
 import { Badge } from '../../components/common/Badge';
 
@@ -123,18 +123,18 @@ const Profile = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
       {/* Profile Header Card */}
-      <GlassCard className="p-6 sm:p-8 border-[#f3c5d3]">
+      <GlassCard variant="pink" className="p-6 sm:p-8 border-[#FBCFE8]">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#e91e63] via-[#ec407a] to-[#f43f5e] flex items-center justify-center font-bold text-white text-2xl shadow-xl shadow-[#e91e63]/30">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#F9A8C8] via-[#FED7AA] to-[#BAE6FD] flex items-center justify-center font-extrabold text-[#2D2530] text-2xl shadow-lg shadow-[#F9A8C8]/25 border border-white/60">
             {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
           </div>
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-1">
-              <h1 className="text-xl sm:text-2xl font-bold text-[#3a2630]">{user?.name}</h1>
+              <h1 className="text-xl sm:text-2xl font-extrabold text-[#2D2530]">{user?.name}</h1>
               <Badge variant="pink">{user?.role === 'admin' ? 'Administrator' : 'Student Researcher'}</Badge>
-              <Badge variant="rose">{user?.branch || 'Engineering'}</Badge>
+              <Badge variant="sky">{user?.branch || 'Engineering'}</Badge>
             </div>
-            <p className="text-xs sm:text-sm text-[#6b5560]">
+            <p className="text-xs sm:text-sm text-[#5E5364] font-medium">
               {user?.email} • {user?.college || 'University Capstone Program'}
             </p>
           </div>
@@ -144,64 +144,64 @@ const Profile = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Profile Form */}
         <div className="lg:col-span-2 space-y-6">
-          <GlassCard className="p-6 sm:p-8 border-[#f3c5d3]">
-            <h2 className="text-base font-bold text-[#3a2630] mb-6 flex items-center gap-2">
-              <User className="w-4 h-4 text-[#e91e63]" />
-              Student Innovation Profile & Preferences
+          <GlassCard variant="peach" className="p-6 sm:p-8 border-[#FED7AA]/60">
+            <h2 className="text-base font-extrabold text-[#2D2530] mb-6 flex items-center gap-2">
+              <User className="w-4 h-4 text-[#EA580C]" />
+              <span>Student Innovation Profile & Preferences</span>
             </h2>
 
             {profileMsg.text && (
               <div
                 className={`mb-6 p-3.5 rounded-xl border text-xs sm:text-sm flex items-center gap-2 ${
                   profileMsg.type === 'success'
-                    ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
-                    : 'bg-rose-50 border-rose-200 text-rose-700'
+                    ? 'bg-emerald-50/90 border-emerald-200 text-emerald-700'
+                    : 'bg-rose-50/90 border-rose-200 text-rose-700'
                 }`}
               >
                 {profileMsg.type === 'success' ? <Check className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
-                <span>{profileMsg.text}</span>
+                <span className="font-medium">{profileMsg.text}</span>
               </div>
             )}
 
             <form onSubmit={handleProfileSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#3a2630] mb-1">Full Name</label>
+                  <label className="block text-xs font-bold text-[#2D2530] mb-1">Full Name</label>
                   <input
                     type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white/90 border-[#F1E4EC] focus:border-[#FED7AA]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#3a2630] mb-1">College / University</label>
+                  <label className="block text-xs font-bold text-[#2D2530] mb-1">College / University</label>
                   <input
                     type="text"
                     value={formData.college}
                     onChange={(e) => setFormData({ ...formData, college: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white/90 border-[#F1E4EC] focus:border-[#FED7AA]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#3a2630] mb-1">Department / Branch</label>
+                  <label className="block text-xs font-bold text-[#2D2530] mb-1">Department / Branch</label>
                   <input
                     type="text"
                     value={formData.branch}
                     onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white/90 border-[#F1E4EC] focus:border-[#FED7AA]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#3a2630] mb-1">Academic Year</label>
+                  <label className="block text-xs font-bold text-[#2D2530] mb-1">Academic Year</label>
                   <select
                     value={formData.experienceLevel}
                     onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white text-[#3a2630] border border-[#f3c5d3]"
+                    className="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white text-[#2D2530] border border-[#F1E4EC] focus:border-[#FED7AA] outline-none shadow-xs font-medium"
                   >
                     <option value="1st Year">1st Year</option>
                     <option value="2nd Year">2nd Year</option>
@@ -213,9 +213,9 @@ const Profile = () => {
               </div>
 
               {/* Technical Capabilities */}
-              <div className="pt-4 border-t border-[#fce4ec] space-y-4">
+              <div className="pt-4 border-t border-[#F1E4EC] space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#3a2630] mb-1">
+                  <label className="block text-xs font-bold text-[#2D2530] mb-1">
                     Technical Skills (Frameworks, Libraries)
                   </label>
                   <input
@@ -223,28 +223,28 @@ const Profile = () => {
                     value={formData.skills}
                     onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
                     placeholder="React, Express, MongoDB, Tailwind, PyTorch"
-                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white/90 border-[#F1E4EC] focus:border-[#FED7AA]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#3a2630] mb-1">Programming Languages</label>
+                  <label className="block text-xs font-bold text-[#2D2530] mb-1">Programming Languages</label>
                   <input
                     type="text"
                     value={formData.programmingLanguages}
                     onChange={(e) => setFormData({ ...formData, programmingLanguages: e.target.value })}
                     placeholder="JavaScript, Python, C++, SQL"
-                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white/90 border-[#F1E4EC] focus:border-[#FED7AA]"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-[#3a2630] mb-1">AI / ML Level</label>
+                    <label className="block text-xs font-bold text-[#2D2530] mb-1">AI / ML Level</label>
                     <select
                       value={formData.aimlKnowledge}
                       onChange={(e) => setFormData({ ...formData, aimlKnowledge: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white text-[#3a2630] border border-[#f3c5d3]"
+                      className="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white text-[#2D2530] border border-[#F1E4EC] focus:border-[#FED7AA] outline-none shadow-xs font-medium"
                     >
                       <option value="None">None</option>
                       <option value="Beginner">Beginner</option>
@@ -254,11 +254,11 @@ const Profile = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-[#3a2630] mb-1">Web Dev Knowledge</label>
+                    <label className="block text-xs font-bold text-[#2D2530] mb-1">Web Dev Knowledge</label>
                     <select
                       value={formData.webDevKnowledge}
                       onChange={(e) => setFormData({ ...formData, webDevKnowledge: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white text-[#3a2630] border border-[#f3c5d3]"
+                      className="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white text-[#2D2530] border border-[#F1E4EC] focus:border-[#FED7AA] outline-none shadow-xs font-medium"
                     >
                       <option value="Beginner">Beginner</option>
                       <option value="Intermediate">Intermediate</option>
@@ -269,18 +269,18 @@ const Profile = () => {
               </div>
 
               {/* Domain Interests */}
-              <div className="pt-4 border-t border-[#fce4ec]">
-                <label className="block text-xs font-semibold text-[#3a2630] mb-2">Domain Interests</label>
+              <div className="pt-4 border-t border-[#F1E4EC]">
+                <label className="block text-xs font-bold text-[#2D2530] mb-2">Domain Interests</label>
                 <div className="flex flex-wrap gap-2">
                   {domainOptions.map((d) => (
                     <button
                       type="button"
                       key={d}
                       onClick={() => handleInterestToggle(d)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                         formData.interests.includes(d)
-                          ? 'bg-[#fce4ec] text-[#e91e63] border-[#e91e63] font-semibold shadow-sm'
-                          : 'bg-white text-[#6b5560] border-[#f3c5d3] hover:border-[#e91e63]/40 hover:bg-[#fff0f5]'
+                          ? 'bg-gradient-to-r from-[#FED7AA]/40 to-[#F9A8C8]/40 text-[#2D2530] border-[#FED7AA] font-bold shadow-xs'
+                          : 'bg-white text-[#5E5364] border-[#F1E4EC] hover:border-[#FED7AA] hover:bg-[#FFFDFE]'
                       }`}
                     >
                       {d}
@@ -290,13 +290,13 @@ const Profile = () => {
               </div>
 
               {/* Hardware & Scope */}
-              <div className="pt-4 border-t border-[#fce4ec] grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="pt-4 border-t border-[#F1E4EC] grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#3a2630] mb-1">Hardware Availability</label>
+                  <label className="block text-xs font-bold text-[#2D2530] mb-1">Hardware Availability</label>
                   <select
                     value={formData.hardwareAvailability}
                     onChange={(e) => setFormData({ ...formData, hardwareAvailability: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white text-[#3a2630] border border-[#f3c5d3]"
+                    className="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white text-[#2D2530] border border-[#F1E4EC] focus:border-[#FED7AA] outline-none shadow-xs font-medium"
                   >
                     <option value="Standard Laptop">Standard Laptop</option>
                     <option value="GPU / High-end PC">GPU / High-end PC</option>
@@ -306,11 +306,11 @@ const Profile = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#3a2630] mb-1">Preferred Project Type</label>
+                  <label className="block text-xs font-bold text-[#2D2530] mb-1">Preferred Project Type</label>
                   <select
                     value={formData.preferredProjectType}
                     onChange={(e) => setFormData({ ...formData, preferredProjectType: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white text-[#3a2630] border border-[#f3c5d3]"
+                    className="w-full px-3.5 py-2.5 rounded-xl text-sm bg-white text-[#2D2530] border border-[#F1E4EC] focus:border-[#FED7AA] outline-none shadow-xs font-medium"
                   >
                     <option value="Major Project">Major Project</option>
                     <option value="Minor Project">Minor Project</option>
@@ -323,10 +323,10 @@ const Profile = () => {
               <button
                 type="submit"
                 disabled={savingProfile}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] hover:opacity-95 text-white font-semibold text-sm shadow-lg shadow-[#e91e63]/25 transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-[#F9A8C8] via-[#FED7AA] to-[#FDE68A] hover:shadow-lg text-[#2D2530] font-bold text-sm shadow-md shadow-[#F9A8C8]/25 transition-all flex items-center justify-center gap-2 hover:scale-[1.01]"
               >
-                {savingProfile ? <Sparkles className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
-                Save Innovation Profile
+                {savingProfile ? <Sparkles className="w-4 h-4 animate-spin text-[#DB2777]" /> : <Check className="w-4 h-4 text-[#2D2530]" />}
+                <span>Save Innovation Profile</span>
               </button>
             </form>
           </GlassCard>
@@ -334,39 +334,39 @@ const Profile = () => {
 
         {/* Password & Security Card */}
         <div className="space-y-6">
-          <GlassCard className="p-6 border-[#f3c5d3]">
-            <h2 className="text-base font-bold text-[#3a2630] mb-4 flex items-center gap-2">
-              <KeyRound className="w-4 h-4 text-[#d81b60]" />
-              Change Password
+          <GlassCard variant="sky" className="p-6 border-[#BAE6FD]/60">
+            <h2 className="text-base font-extrabold text-[#2D2530] mb-4 flex items-center gap-2">
+              <KeyRound className="w-4 h-4 text-[#0284C7]" />
+              <span>Change Password</span>
             </h2>
 
             {passwordMsg.text && (
               <div
                 className={`mb-4 p-3 rounded-xl border text-xs flex items-center gap-2 ${
                   passwordMsg.type === 'success'
-                    ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
-                    : 'bg-rose-50 border-rose-200 text-rose-700'
+                    ? 'bg-emerald-50/90 border-emerald-200 text-emerald-700'
+                    : 'bg-rose-50/90 border-rose-200 text-rose-700'
                 }`}
               >
                 {passwordMsg.type === 'success' ? <Check className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
-                <span>{passwordMsg.text}</span>
+                <span className="font-medium">{passwordMsg.text}</span>
               </div>
             )}
 
             <form onSubmit={handlePasswordSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs text-[#3a2630] font-medium mb-1">Current Password</label>
+                <label className="block text-xs text-[#2D2530] font-bold mb-1">Current Password</label>
                 <input
                   type="password"
                   required
                   value={passwordData.currentPassword}
                   onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm"
+                  className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white/90 border-[#F1E4EC] focus:border-[#BAE6FD]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs text-[#3a2630] font-medium mb-1">New Password</label>
+                <label className="block text-xs text-[#2D2530] font-bold mb-1">New Password</label>
                 <input
                   type="password"
                   required
@@ -374,23 +374,26 @@ const Profile = () => {
                   value={passwordData.newPassword}
                   onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
                   placeholder="Min. 6 characters"
-                  className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm"
+                  className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white/90 border-[#F1E4EC] focus:border-[#BAE6FD]"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={savingPassword}
-                className="w-full py-2.5 rounded-xl bg-white hover:bg-[#fff0f5] text-[#3a2630] hover:text-[#e91e63] font-medium text-xs border border-[#f3c5d3] transition-colors shadow-sm"
+                className="w-full py-2.5 rounded-xl bg-white hover:bg-[#BAE6FD]/15 text-[#2D2530] hover:text-[#0284C7] font-bold text-xs border border-[#BAE6FD] transition-all shadow-xs"
               >
                 {savingPassword ? 'Updating...' : 'Update Password'}
               </button>
             </form>
           </GlassCard>
 
-          <GlassCard className="p-6 border-[#f3c5d3] bg-[#fff8fa]">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[#e91e63] mb-2">AI Context Awareness</h3>
-            <p className="text-xs text-[#6b5560] leading-relaxed">
+          <GlassCard variant="gold" className="p-6 border-[#FDE68A]/70">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800 mb-2 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+              <span>AI Context Awareness</span>
+            </h3>
+            <p className="text-xs text-[#5E5364] leading-relaxed">
               Whenever you evolve an idea, evaluate feasibility, or generate roadmaps, the backend AI service injects your profile constraints to ensure every recommendation is achievable.
             </p>
           </GlassCard>

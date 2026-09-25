@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useProject } from '../../context/ProjectContext';
 import { projectAPI } from '../../services/api';
 import {
-  Lightbulb,
+  FolderKanban,
   Search,
   ArrowRight,
   Copy,
@@ -11,6 +11,9 @@ import {
   Compass,
   Sparkles,
   Code,
+  Layers,
+  Calendar,
+  Sparkle
 } from 'lucide-react';
 import { GlassCard } from '../../components/common/GlassCard';
 import { Badge } from '../../components/common/Badge';
@@ -26,6 +29,15 @@ const domainFilters = [
   'Software Systems & DevOps',
   'Smart Campus & Community',
 ];
+
+const getDomainVariant = (domain) => {
+  if (!domain) return 'pink';
+  const d = domain.toLowerCase();
+  if (d.includes('health') || d.includes('agri') || d.includes('enviro')) return 'mint';
+  if (d.includes('edu') || d.includes('soft') || d.includes('cloud')) return 'sky';
+  if (d.includes('cyber') || d.includes('trans')) return 'peach';
+  return 'gold';
+};
 
 const ProjectLibrary = () => {
   const navigate = useNavigate();
@@ -103,14 +115,14 @@ const ProjectLibrary = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fce4ec] text-[#e91e63] border border-[#f3c5d3] text-xs font-semibold mb-2">
-            <Lightbulb className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-[#BBF7D0]/30 via-[#BAE6FD]/30 to-[#FED7AA]/30 border border-[#BBF7D0]/60 text-emerald-800 text-xs font-bold mb-2 shadow-xs">
+            <FolderKanban className="w-3.5 h-3.5 text-emerald-700" />
             <span>Module 12 • Project Library & Version Portfolio</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#3a2630] tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#2D2530] tracking-tight">
             Saved Project Ideas & Architectures
           </h1>
-          <p className="text-xs sm:text-sm text-[#6b5560] mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[#5E5364] mt-1 max-w-2xl leading-relaxed">
             Manage, duplicate, search, and continue refining your capstone concepts across their full lifecycle.
           </p>
         </div>
@@ -118,36 +130,36 @@ const ProjectLibrary = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/discover')}
-            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] text-white text-xs font-semibold shadow-md shadow-[#e91e63]/20 hover:opacity-95 transition-all flex items-center gap-1.5"
+            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#FED7AA] via-[#F9A8C8] to-[#BAE6FD] text-[#2D2530] text-xs font-bold shadow-md shadow-[#FED7AA]/30 hover:shadow-lg hover:scale-105 transition-all flex items-center gap-1.5"
           >
-            <Compass className="w-4 h-4" />
+            <Compass className="w-4 h-4 text-[#2D2530]" />
             <span>Discover New Problem</span>
           </button>
         </div>
       </div>
 
       {/* Filter & Search Bar */}
-      <GlassCard className="p-4 sm:p-5 border-[#f3c5d3] space-y-4">
+      <GlassCard variant="mint" className="p-4 sm:p-5 border-[#BBF7D0]/60 space-y-4 shadow-sm">
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
           {/* Search Input */}
           <form onSubmit={handleSearchSubmit} className="relative flex-1">
-            <Search className="w-4 h-4 text-[#9d808d] absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-[#8E8295] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by title, problem, features, or stack..."
-              className="w-full pl-10 pr-4 py-2 rounded-xl glass-input text-xs sm:text-sm"
+              className="w-full pl-10 pr-4 py-2 rounded-xl glass-input text-xs sm:text-sm bg-white/90 border-[#F1E4EC] focus:border-[#BBF7D0]"
             />
           </form>
 
           {/* Sort Dropdown */}
           <div className="flex items-center gap-2">
-            <span className="text-xs text-[#6b5560] whitespace-nowrap font-medium">Sort by:</span>
+            <span className="text-xs text-[#5E5364] whitespace-nowrap font-medium">Sort by:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 rounded-xl glass-input text-xs bg-white text-[#3a2630] border border-[#f3c5d3]"
+              className="px-3 py-2 rounded-xl text-xs bg-white text-[#2D2530] border border-[#F1E4EC] focus:border-[#BAE6FD] outline-none shadow-xs font-medium"
             >
               <option value="updated">Recently Updated</option>
               <option value="oldest">Oldest First</option>
@@ -159,50 +171,55 @@ const ProjectLibrary = () => {
 
         {/* Domain Filter Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-          <span className="text-xs text-[#9d808d] mr-2 flex-shrink-0 font-medium">Domain:</span>
-          {domainFilters.map((df) => (
-            <button
-              key={df}
-              onClick={() => setSelectedDomain(df)}
-              className={`px-3 py-1 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
-                selectedDomain === df
-                  ? 'bg-gradient-to-r from-[#e91e63] to-[#f43f5e] text-white shadow-md shadow-[#e91e63]/30'
-                  : 'bg-white text-[#6b5560] hover:text-[#3a2630] hover:bg-[#fff0f5] border border-[#f3c5d3]'
-              }`}
-            >
-              {df}
-            </button>
-          ))}
+          <span className="text-xs text-[#8E8295] mr-2 flex-shrink-0 font-medium">Domain:</span>
+          {domainFilters.map((df) => {
+            const isSelected = selectedDomain === df;
+            return (
+              <button
+                key={df}
+                onClick={() => setSelectedDomain(df)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                  isSelected
+                    ? 'bg-gradient-to-r from-[#BBF7D0] via-[#BAE6FD] to-[#FED7AA] text-[#2D2530] shadow-sm font-bold border border-[#BBF7D0]'
+                    : 'bg-white text-[#5E5364] hover:text-[#2D2530] hover:bg-[#FFFDFE] border border-[#F1E4EC]'
+                }`}
+              >
+                {df}
+              </button>
+            );
+          })}
         </div>
       </GlassCard>
 
       {/* Projects Grid / Empty State */}
       {loading ? (
         <div className="p-16 text-center space-y-3">
-          <Sparkles className="w-8 h-8 text-[#e91e63] animate-spin mx-auto" />
-          <p className="text-xs text-[#6b5560]">Loading your project library...</p>
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#BBF7D0]/30 to-[#BAE6FD]/30 border border-[#BBF7D0]/50 flex items-center justify-center mx-auto text-emerald-700 animate-spin shadow-sm">
+            <Sparkles className="w-6 h-6" />
+          </div>
+          <p className="text-xs text-[#5E5364] font-medium">Loading your project library...</p>
         </div>
       ) : projects.length === 0 ? (
-        <GlassCard className="p-12 text-center border-dashed border-[#f3c5d3] space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-[#fce4ec] text-[#e91e63] border border-[#f3c5d3] flex items-center justify-center mx-auto">
-            <Lightbulb className="w-6 h-6" />
+        <GlassCard variant="peach" className="p-12 text-center border-dashed border-[#FED7AA] space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FED7AA]/40 to-[#FDE68A]/40 text-[#EA580C] border border-[#FED7AA] flex items-center justify-center mx-auto">
+            <FolderKanban className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-[#3a2630]">No Projects Found</h3>
-          <p className="text-xs text-[#6b5560] max-w-sm mx-auto">
+          <h3 className="text-base font-bold text-[#2D2530]">No Projects Found</h3>
+          <p className="text-xs text-[#5E5364] max-w-sm mx-auto leading-relaxed">
             {searchQuery || selectedDomain !== 'All'
               ? 'No projects match your active search filters.'
               : 'You haven’t generated or saved any project ideas yet.'}
           </p>
-          <div className="pt-2 flex items-center justify-center gap-3">
+          <div className="pt-2 flex items-center justify-center gap-3 flex-wrap">
             <button
               onClick={() => navigate('/discover')}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#e91e63] to-[#f43f5e] text-white text-xs font-semibold shadow-md shadow-[#e91e63]/20 hover:opacity-95"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FED7AA] via-[#F9A8C8] to-[#BAE6FD] text-[#2D2530] text-xs font-bold shadow-md shadow-[#FED7AA]/30 hover:scale-105 transition-all"
             >
               Start Problem Discovery
             </button>
             <button
               onClick={() => navigate('/generate')}
-              className="px-5 py-2.5 rounded-xl bg-white hover:bg-[#fff0f5] text-[#3a2630] text-xs font-semibold border border-[#f3c5d3] transition-colors"
+              className="px-5 py-2.5 rounded-xl bg-white hover:bg-[#FED7AA]/15 text-[#2D2530] text-xs font-bold border border-[#FED7AA] transition-colors shadow-xs"
             >
               Direct Idea Generator
             </button>
@@ -210,56 +227,64 @@ const ProjectLibrary = () => {
         </GlassCard>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((proj) => {
+          {projects.map((proj, idx) => {
             const isActive = activeProject?._id === proj._id;
+            const cardVariant = getDomainVariant(proj.domain);
+            
             return (
               <GlassCard
                 key={proj._id}
+                variant={cardVariant}
                 interactive
                 onClick={() => handleSelectAndOpen(proj)}
-                className={`p-6 flex flex-col justify-between cursor-pointer transition-all ${
-                  isActive ? 'border-[#e91e63] ring-2 ring-[#e91e63]/30 bg-[#fff8fa]' : 'border-[#f3c5d3]'
+                className={`p-6 flex flex-col justify-between cursor-pointer transition-all duration-300 ${
+                  isActive
+                    ? 'border-[#DB2777] ring-2 ring-[#F9A8C8]/40 bg-white/95 shadow-lg'
+                    : 'hover:shadow-md'
                 }`}
               >
                 <div className="space-y-3.5">
                   {/* Card Header */}
                   <div className="flex items-center justify-between gap-2">
-                    <Badge variant="pink">{proj.domain || 'General'}</Badge>
+                    <Badge variant={cardVariant}>{proj.domain || 'General'}</Badge>
                     <div className="flex items-center gap-1">
-                      <Badge variant="rose">v{proj.currentVersion || 1}</Badge>
-                      {isActive && <Badge variant="success">Active</Badge>}
+                      <Badge variant="gold">v{proj.currentVersion || 1}</Badge>
+                      {isActive && <Badge variant="mint">Active</Badge>}
                     </div>
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-base font-bold text-[#3a2630] leading-snug hover:text-[#e91e63] transition-colors">
+                  <h3 className="text-base font-bold text-[#2D2530] leading-snug hover:text-[#DB2777] transition-colors line-clamp-2">
                     {proj.title}
                   </h3>
 
                   {/* Problem & Solution */}
-                  <p className="text-xs text-[#6b5560] line-clamp-3 leading-relaxed">
+                  <p className="text-xs text-[#5E5364] line-clamp-3 leading-relaxed">
                     {proj.proposedSolution}
                   </p>
 
                   {/* Tech stack badge list */}
                   {proj.techStack && (
-                    <div className="pt-2 border-t border-[#fce4ec] flex items-center gap-1.5 flex-wrap text-[10px] text-[#6b5560]">
-                      <Code className="w-3.5 h-3.5 text-[#e91e63]" />
-                      <span>{[(proj.techStack.frontend || [])[0], (proj.techStack.backend || [])[0], (proj.techStack.aiMl || [])[0]].filter(Boolean).join(' • ')}</span>
+                    <div className="pt-2.5 border-t border-[#F1E4EC] flex items-center gap-1.5 flex-wrap text-[11px] text-[#5E5364]">
+                      <Code className="w-3.5 h-3.5 text-[#0284C7]" />
+                      <span className="font-medium">
+                        {[(proj.techStack.frontend || [])[0], (proj.techStack.backend || [])[0], (proj.techStack.aiMl || [])[0]].filter(Boolean).join(' • ') || 'Full Stack Architecture'}
+                      </span>
                     </div>
                   )}
                 </div>
 
                 {/* Card Footer Actions */}
-                <div className="mt-5 pt-3 border-t border-[#fce4ec] flex items-center justify-between">
-                  <span className="text-[10px] text-[#9d808d]">
-                    {new Date(proj.updatedAt).toLocaleDateString()}
-                  </span>
+                <div className="mt-5 pt-3 border-t border-[#F1E4EC] flex items-center justify-between">
+                  <div className="flex items-center gap-1 text-[11px] text-[#8E8295] font-medium">
+                    <Calendar className="w-3 h-3" />
+                    <span>{new Date(proj.updatedAt).toLocaleDateString()}</span>
+                  </div>
 
                   <div className="flex items-center gap-1">
                     <button
                       onClick={(e) => handleDuplicate(e, proj._id)}
-                      className="p-1.5 rounded-lg text-[#6b5560] hover:text-[#e91e63] hover:bg-[#fff0f5] transition-colors"
+                      className="p-1.5 rounded-lg text-[#5E5364] hover:text-[#EA580C] hover:bg-[#FED7AA]/20 transition-colors"
                       title="Duplicate Idea"
                     >
                       <Copy className="w-3.5 h-3.5" />
@@ -273,10 +298,10 @@ const ProjectLibrary = () => {
                     </button>
                     <button
                       onClick={() => handleSelectAndOpen(proj)}
-                      className="ml-1 px-3 py-1 rounded-lg bg-[#fce4ec] hover:bg-[#f8bbd0] text-[#e91e63] text-xs font-semibold flex items-center gap-1 transition-colors"
+                      className="ml-1 px-3 py-1 rounded-xl bg-gradient-to-r from-[#F9A8C8]/25 via-[#FED7AA]/25 to-[#BBF7D0]/25 hover:from-[#F9A8C8]/40 hover:to-[#BBF7D0]/40 text-[#2D2530] text-xs font-bold flex items-center gap-1 transition-all border border-[#F1E4EC]"
                     >
                       <span>Evolve</span>
-                      <ArrowRight className="w-3 h-3" />
+                      <ArrowRight className="w-3 h-3 text-[#DB2777]" />
                     </button>
                   </div>
                 </div>

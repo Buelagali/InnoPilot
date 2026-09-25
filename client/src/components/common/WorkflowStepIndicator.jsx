@@ -15,16 +15,16 @@ import {
 } from 'lucide-react';
 
 const steps = [
-  { id: 'discover', label: '1. Discovery', path: '/discover', icon: Compass },
-  { id: 'analyzer', label: '2. Analysis', path: '/analyzer', icon: Search },
-  { id: 'generator', label: '3. Idea Gen', path: '/generate', icon: Lightbulb, requiresProject: false },
-  { id: 'evolution', label: '4. Evolution', path: '/evolve', icon: GitBranch, requiresProject: true },
-  { id: 'similarity', label: '5. Similarity', path: '/similarity', icon: CopyCheck, requiresProject: true },
-  { id: 'feasibility', label: '6. Feasibility', path: '/feasibility', icon: CheckCircle2, requiresProject: true },
-  { id: 'research', label: '7. Research Gap', path: '/research-gap', icon: BookOpen, requiresProject: true },
-  { id: 'architecture', label: '8. Architecture', path: '/architecture', icon: Cpu, requiresProject: true },
-  { id: 'roadmap', label: '9. Roadmap', path: '/roadmap', icon: MapPin, requiresProject: true },
-  { id: 'proposal', label: '10. Proposal', path: '/proposal', icon: FileCheck2, requiresProject: true },
+  { id: 'discover', label: '1. Discovery', path: '/discover', icon: Compass, color: 'text-[#EA580C]' },
+  { id: 'analyzer', label: '2. Analysis', path: '/analyzer', icon: Search, color: 'text-[#0284C7]' },
+  { id: 'generator', label: '3. Idea Gen', path: '/generate', icon: Lightbulb, requiresProject: false, color: 'text-[#D97706]' },
+  { id: 'evolution', label: '4. Evolution', path: '/evolve', icon: GitBranch, requiresProject: true, color: 'text-[#E91E63]' },
+  { id: 'similarity', label: '5. Similarity', path: '/similarity', icon: CopyCheck, requiresProject: true, color: 'text-[#0369A1]' },
+  { id: 'feasibility', label: '6. Feasibility', path: '/feasibility', icon: CheckCircle2, requiresProject: true, color: 'text-[#15803D]' },
+  { id: 'research', label: '7. Research Gap', path: '/research-gap', icon: BookOpen, requiresProject: true, color: 'text-[#B45309]' },
+  { id: 'architecture', label: '8. Architecture', path: '/architecture', icon: Cpu, requiresProject: true, color: 'text-[#0284C7]' },
+  { id: 'roadmap', label: '9. Roadmap', path: '/roadmap', icon: MapPin, requiresProject: true, color: 'text-[#15803D]' },
+  { id: 'proposal', label: '10. Proposal', path: '/proposal', icon: FileCheck2, requiresProject: true, color: 'text-[#E91E63]' },
 ];
 
 const WorkflowStepIndicator = ({ currentStepId }) => {
@@ -54,21 +54,21 @@ const WorkflowStepIndicator = ({ currentStepId }) => {
               <button
                 onClick={() => handleStepClick(step)}
                 disabled={!isAccessible}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${
                   isCurrent
-                    ? 'bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#d81b60] text-white shadow-md shadow-pink-500/25 scale-105'
+                    ? 'bg-gradient-to-r from-[#E91E63] via-[#FB923C] to-[#F59E0B] text-white shadow-md shadow-pink-500/20 scale-105 border-transparent'
                     : isAccessible
-                    ? 'bg-white/85 text-[#6b5560] hover:text-[#3a2630] hover:bg-[#fff0f5] border border-[#f3c5d3]'
-                    : 'bg-[#fff8fa]/60 text-[#b59aa7] border border-[#fce4ec] cursor-not-allowed opacity-60'
+                    ? 'bg-white text-[#5E5364] hover:text-[#2D2530] hover:bg-[#FAF8FB] border-[#F1E4EC]'
+                    : 'bg-[#FAF8FB] text-[#8E8295] border-[#F1E4EC] cursor-not-allowed opacity-50'
                 }`}
                 title={!isAccessible ? 'Generate or select a project first' : step.label}
               >
-                <Icon className={`w-3.5 h-3.5 ${isCurrent ? 'text-white' : 'text-[#e91e63]'}`} />
+                <Icon className={`w-3.5 h-3.5 ${isCurrent ? 'text-white' : step.color}`} />
                 <span>{step.label}</span>
               </button>
 
               {idx < steps.length - 1 && (
-                <div className="w-3 h-0.5 bg-[#f3c5d3] rounded-full flex-shrink-0"></div>
+                <div className="w-3 h-0.5 bg-[#F1E4EC] rounded-full flex-shrink-0"></div>
               )}
             </React.Fragment>
           );

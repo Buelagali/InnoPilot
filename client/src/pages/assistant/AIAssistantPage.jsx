@@ -19,21 +19,29 @@ const shortcutCards = [
     title: 'Innovation Upgrade',
     prompt: 'How can I make this project significantly more innovative and research-grade?',
     icon: Zap,
+    variant: 'pink',
+    color: '#DB2777',
   },
   {
     title: 'Complexity Reduction',
     prompt: 'Which features should I trim or replace to deliver a bulletproof MVP on time?',
     icon: Lightbulb,
+    variant: 'peach',
+    color: '#EA580C',
   },
   {
     title: 'Technical Defense',
     prompt: 'What are the toughest viva/defense questions professors might ask about this architecture?',
     icon: Shield,
+    variant: 'sky',
+    color: '#0284C7',
   },
   {
     title: 'First 2-Week Sprint',
     prompt: 'What exact database schemas, endpoints, and libraries should I set up in the first 2 weeks?',
     icon: Cpu,
+    variant: 'gold',
+    color: '#D97706',
   },
 ];
 
@@ -87,7 +95,7 @@ Ask me anything about engineering trade-offs, making your project publishable, r
     } catch (err) {
       setMessages((prev) => [
         ...prev,
-        { sender: 'ai', text: 'Error formulation response. Please check network or retry.' },
+        { sender: 'ai', text: 'Error formulating response. Please check network or retry.' },
       ]);
     } finally {
       setLoading(false);
@@ -99,20 +107,20 @@ Ask me anything about engineering trade-offs, making your project publishable, r
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fce4ec] text-[#e91e63] border border-[#f3c5d3] text-xs font-semibold mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-[#F9A8C8]/20 via-[#FED7AA]/20 to-[#BAE6FD]/20 border border-[#F9A8C8]/40 text-[#DB2777] text-xs font-bold mb-2 shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#DB2777]" />
             <span>Module 14 • Contextual Innovation Companion</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#3a2630] tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#2D2530] tracking-tight">
             AI Project Companion & Mentor
           </h1>
-          <p className="text-xs sm:text-sm text-[#6b5560] mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[#5E5364] mt-1 max-w-2xl leading-relaxed">
             Not a generic chatbot. The companion retains full awareness of your active problem statement, technology stack, feasibility constraints, and roadmap progress.
           </p>
         </div>
 
         {activeProject && (
-          <Badge variant="pink" className="text-xs px-3 py-1.5 font-medium">
+          <Badge variant="pink" className="text-xs px-3.5 py-1.5 font-bold shadow-xs">
             Active Context: {activeProject.title} (v{activeProject.currentVersion || 1})
           </Badge>
         )}
@@ -125,43 +133,47 @@ Ask me anything about engineering trade-offs, making your project publishable, r
           return (
             <GlassCard
               key={i}
+              variant={sc.variant}
               interactive
               onClick={() => handleSend(sc.prompt)}
-              className="p-3.5 cursor-pointer flex flex-col justify-between group border-[#f3c5d3] hover:border-[#e91e63]/60 bg-gradient-to-b from-white to-[#fff8fa]"
+              className="p-4 cursor-pointer flex flex-col justify-between group transition-all duration-300"
             >
               <div className="flex items-center gap-2.5 mb-2">
-                <div className="w-7 h-7 rounded-lg bg-[#fce4ec] text-[#e91e63] border border-[#f3c5d3] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <Icon className="w-3.5 h-3.5" />
+                <div
+                  className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform shadow-xs"
+                  style={{ backgroundColor: `${sc.color}15`, color: sc.color }}
+                >
+                  <Icon className="w-4 h-4" />
                 </div>
-                <h4 className="text-xs font-bold text-[#3a2630] group-hover:text-[#e91e63] transition-colors">
+                <h4 className="text-xs font-bold text-[#2D2530] group-hover:text-[#DB2777] transition-colors">
                   {sc.title}
                 </h4>
               </div>
-              <p className="text-[11px] text-[#6b5560] line-clamp-2 leading-relaxed">{sc.prompt}</p>
+              <p className="text-[11px] text-[#5E5364] line-clamp-2 leading-relaxed">{sc.prompt}</p>
             </GlassCard>
           );
         })}
       </div>
 
       {/* Main Full-Page Chat Container */}
-      <GlassCard className="p-5 sm:p-6 border-[#f3c5d3] flex flex-col h-[580px] bg-white shadow-xl shadow-[#fce4ec]/30">
+      <GlassCard className="p-5 sm:p-6 border-[#F1E4EC] flex flex-col h-[580px] bg-white/95 shadow-xl shadow-[#F9A8C8]/10">
         {/* Chat History Messages */}
-        <div className="flex-1 overflow-y-auto space-y-4 pr-1">
+        <div className="flex-1 overflow-y-auto space-y-4 pr-1 scrollbar-thin">
           {messages.map((m, idx) => (
             <div
               key={idx}
               className={`flex gap-3.5 ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {m.sender === 'ai' && (
-                <div className="w-8 h-8 rounded-xl bg-[#fce4ec] border border-[#f3c5d3] flex items-center justify-center text-[#e91e63] flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#F9A8C8]/30 to-[#BAE6FD]/30 border border-[#F9A8C8]/40 flex items-center justify-center text-[#DB2777] flex-shrink-0 mt-0.5 shadow-xs">
                   <Bot className="w-4 h-4" />
                 </div>
               )}
               <div
                 className={`max-w-[85%] p-4 rounded-2xl text-xs sm:text-sm leading-relaxed whitespace-pre-line ${
                   m.sender === 'user'
-                    ? 'bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] text-white rounded-br-none shadow-md shadow-[#e91e63]/20'
-                    : 'bg-[#fff8fa] text-[#3a2630] rounded-bl-none border border-[#fce4ec]'
+                    ? 'bg-gradient-to-r from-[#F9A8C8] via-[#FED7AA] to-[#FDE68A] text-[#2D2530] font-medium rounded-br-none shadow-md shadow-[#F9A8C8]/20'
+                    : 'bg-[#FFFDFE] text-[#2D2530] rounded-bl-none border border-[#F1E4EC] shadow-xs'
                 }`}
               >
                 {m.text}
@@ -170,8 +182,8 @@ Ask me anything about engineering trade-offs, making your project publishable, r
           ))}
 
           {loading && (
-            <div className="flex items-center gap-2.5 text-[#e91e63] text-xs italic pl-2">
-              <Sparkles className="w-4 h-4 animate-spin text-[#e91e63]" />
+            <div className="flex items-center gap-2.5 text-[#DB2777] text-xs font-semibold pl-2">
+              <Sparkles className="w-4 h-4 animate-spin text-[#DB2777]" />
               <span>Synthesizing contextual capstone engineering advice...</span>
             </div>
           )}
@@ -179,7 +191,7 @@ Ask me anything about engineering trade-offs, making your project publishable, r
         </div>
 
         {/* Input Bar */}
-        <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="mt-4 pt-3 border-t border-[#fce4ec] flex gap-2">
+        <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="mt-4 pt-3 border-t border-[#F1E4EC] flex gap-2">
           <input
             type="text"
             value={inputMessage}
@@ -189,15 +201,15 @@ Ask me anything about engineering trade-offs, making your project publishable, r
                 ? `Ask anything about ${activeProject.title}...`
                 : 'Ask questions about problem identification, frameworks, or novel algorithms...'
             }
-            className="flex-1 glass-input rounded-xl px-4 py-2.5 text-xs sm:text-sm"
+            className="flex-1 glass-input rounded-xl px-4 py-2.5 text-xs sm:text-sm bg-white/90 border-[#F1E4EC] focus:border-[#F9A8C8]"
             disabled={loading}
           />
           <button
             type="submit"
             disabled={loading || !inputMessage.trim()}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] hover:opacity-95 text-white text-xs sm:text-sm font-semibold disabled:opacity-50 transition-all flex items-center gap-1.5 shadow-md shadow-[#e91e63]/20"
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#F9A8C8] via-[#FED7AA] to-[#FDE68A] hover:shadow-lg text-[#2D2530] text-xs sm:text-sm font-bold disabled:opacity-50 transition-all flex items-center gap-1.5 shadow-md shadow-[#F9A8C8]/20 hover:scale-105"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-4 h-4 text-[#2D2530]" />
             <span className="hidden sm:inline">Send</span>
           </button>
         </form>

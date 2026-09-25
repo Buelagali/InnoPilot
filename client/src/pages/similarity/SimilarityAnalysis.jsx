@@ -6,13 +6,11 @@ import {
   CopyCheck,
   Sparkles,
   ShieldAlert,
-  CheckCircle,
   AlertTriangle,
   ArrowRight,
   TrendingUp,
   Award,
   Layers,
-  FileCheck2,
 } from 'lucide-react';
 import { GlassCard } from '../../components/common/GlassCard';
 import { Badge } from '../../components/common/Badge';
@@ -55,15 +53,15 @@ const SimilarityAnalysis = () => {
   if (!activeProject) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center space-y-4">
-        <GlassCard className="p-8 border-[#f3c5d3] bg-white/95">
-          <CopyCheck className="w-12 h-12 text-[#e91e63] mx-auto mb-3" />
-          <h2 className="text-xl font-bold text-[#3a2630]">No Active Project Selected</h2>
-          <p className="text-xs text-[#6b5560] max-w-md mx-auto">
+        <GlassCard className="p-8 border-[#F1E4EC] bg-white">
+          <CopyCheck className="w-12 h-12 text-[#0EA5E9] mx-auto mb-3" />
+          <h2 className="text-xl font-bold text-[#2D2530]">No Active Project Selected</h2>
+          <p className="text-xs text-[#5E5364] max-w-md mx-auto">
             Please select or generate a project first to run similarity and uniqueness validation.
           </p>
           <button
             onClick={() => navigate('/library')}
-            className="mt-4 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#e91e63] to-[#ec407a] text-white text-xs font-semibold shadow-md shadow-pink-500/20"
+            className="mt-4 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#0284C7] text-white text-xs font-semibold shadow-md shadow-sky-500/20"
           >
             Go to Project Library
           </button>
@@ -73,20 +71,20 @@ const SimilarityAnalysis = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6 text-[#2D2530]">
       <WorkflowStepIndicator currentStepId="similarity" />
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fce4ec] text-[#e91e63] border border-[#f3c5d3] text-xs font-semibold mb-2">
-            <CopyCheck className="w-3.5 h-3.5 text-[#e91e63]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F0F9FF] text-[#0284C7] border border-[#BAE6FD] text-xs font-semibold mb-2">
+            <CopyCheck className="w-3.5 h-3.5 text-[#0EA5E9]" />
             <span>Module 6 • Similarity & Novelty Auditor</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#3a2630] tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#2D2530] tracking-tight font-heading">
             Evidence-Based Similarity Analysis
           </h1>
-          <p className="text-xs sm:text-sm text-[#6b5560] mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[#5E5364] mt-1 max-w-2xl">
             We reject misleading "100% unique" claims. InnoPilot performs a realistic academic literature and architectural benchmark to distinguish commodity components from your genuine novel contributions.
           </p>
         </div>
@@ -95,14 +93,14 @@ const SimilarityAnalysis = () => {
           <button
             onClick={handleRunAnalysis}
             disabled={loading}
-            className="px-4 py-2 rounded-xl glass-panel text-xs text-[#6b5560] hover:text-[#3a2630] border border-[#f3c5d3] flex items-center gap-1.5"
+            className="px-4 py-2 rounded-xl glass-panel text-xs text-[#5E5364] hover:text-[#2D2530] border border-[#F1E4EC] flex items-center gap-1.5"
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#e91e63]" />
+            <Sparkles className="w-3.5 h-3.5 text-[#0EA5E9]" />
             {loading ? 'Auditing...' : 'Re-Run Audit'}
           </button>
           <button
             onClick={() => navigate('/feasibility')}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] hover:from-[#d81b60] hover:to-[#e91e63] text-white text-xs font-semibold shadow-md shadow-pink-500/20 hover:scale-105 transition-all flex items-center gap-1.5"
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#10B981] via-[#4ADE80] to-[#059669] hover:opacity-95 text-white text-xs font-semibold shadow-md shadow-emerald-500/20 hover:scale-105 transition-all flex items-center gap-1.5"
           >
             <span>Next: Feasibility Analysis</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -119,11 +117,11 @@ const SimilarityAnalysis = () => {
 
       {loading && (
         <div className="p-12 text-center space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#fce4ec] border border-[#f3c5d3] flex items-center justify-center mx-auto text-[#e91e63] animate-spin">
+          <div className="w-12 h-12 rounded-2xl bg-[#F0F9FF] border border-[#BAE6FD] flex items-center justify-center mx-auto text-[#0284C7] animate-spin">
             <Sparkles className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-[#3a2630]">Cross-Referencing Academic Software Corpora...</h3>
-          <p className="text-xs text-[#6b5560] max-w-md mx-auto">
+          <h3 className="text-base font-bold text-[#2D2530]">Cross-Referencing Academic Software Corpora...</h3>
+          <p className="text-xs text-[#5E5364] max-w-md mx-auto">
             Comparing system pipelines against known open-source baselines and identifying distinct contributions.
           </p>
         </div>
@@ -132,62 +130,62 @@ const SimilarityAnalysis = () => {
       {similarityData && !loading && (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
           {/* Top Metric & Disclaimer Bar */}
-          <GlassCard className="p-6 border-[#f3c5d3] bg-white/95 shadow-xl shadow-pink-500/5">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-[#f3c5d3]">
+          <GlassCard className="p-6 border-[#BAE6FD] bg-white shadow-sm">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-[#F1E4EC]">
               <div className="space-y-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#6b5560]">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#5E5364]">
                   Concept Overlap Metric
                 </span>
                 <div className="flex items-baseline gap-3">
-                  <span className="text-4xl font-extrabold text-[#3a2630] font-mono">
+                  <span className="text-4xl font-extrabold text-[#2D2530] font-mono">
                     {similarityData.similarityScore}%
                   </span>
-                  <Badge variant={similarityData.similarityScore < 50 ? 'pink' : 'warning'}>
+                  <Badge variant={similarityData.similarityScore < 50 ? 'mint' : 'warning'}>
                     {similarityData.similarityLevel}
                   </Badge>
                 </div>
-                <p className="text-xs text-[#6b5560] mt-1">
+                <p className="text-xs text-[#5E5364] mt-1 font-medium">
                   Evaluated on {activeProject.title} (v{activeProject.currentVersion || 1})
                 </p>
               </div>
 
               {/* Integrity Disclaimer */}
-              <div className="p-3.5 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] text-[11px] text-[#6b5560] max-w-md leading-relaxed">
-                <span className="font-bold text-[#e91e63] block mb-0.5">Academic Integrity Notice:</span>
+              <div className="p-3.5 rounded-xl bg-[#F0F9FF] border border-[#BAE6FD] text-[11px] text-[#5E5364] max-w-md leading-relaxed">
+                <span className="font-bold text-[#0284C7] block mb-0.5">Academic Integrity Notice:</span>
                 {similarityData.disclaimer}
               </div>
             </div>
 
-            {/* Overlap vs Novelty Grid */}
+            {/* Overlap vs Novelty Grid with Multi-Color Pastel Accents */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
-              {/* Potentially Similar Components (Commodity) */}
+              {/* Potentially Similar Components (Commodity - Soft Gold) */}
               <div className="space-y-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#e91e63] flex items-center gap-1.5">
-                  <AlertTriangle className="w-4 h-4" /> Common / Commodity Components
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[#D97706] flex items-center gap-1.5 font-heading">
+                  <AlertTriangle className="w-4 h-4 text-[#F59E0B]" /> Common / Commodity Components
                 </h3>
-                <p className="text-xs text-[#6b5560]">
+                <p className="text-xs text-[#5E5364]">
                   Standard architectural patterns shared with typical software systems:
                 </p>
                 <div className="space-y-2">
                   {(similarityData.potentiallySimilarComponents || []).map((comp, i) => (
-                    <div key={i} className="p-3 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] text-xs text-[#3a2630]">
+                    <div key={i} className="p-3 rounded-xl bg-[#FFFBEB] border border-[#FDE68A] text-xs text-[#2D2530]">
                       • {comp}
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Distinctive Novel Components */}
+              {/* Distinctive Novel Components (Mint Green) */}
               <div className="space-y-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#d81b60] flex items-center gap-1.5">
-                  <Award className="w-4 h-4" /> Genuine Distinctive Innovations
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[#15803D] flex items-center gap-1.5 font-heading">
+                  <Award className="w-4 h-4 text-[#10B981]" /> Genuine Distinctive Innovations
                 </h3>
-                <p className="text-xs text-[#6b5560]">
+                <p className="text-xs text-[#5E5364]">
                   Unique algorithmic, mathematical, or workflow contributions in your design:
                 </p>
                 <div className="space-y-2">
                   {(similarityData.distinctiveComponents || []).map((comp, i) => (
-                    <div key={i} className="p-3 rounded-xl bg-[#fce4ec]/60 border border-[#f3c5d3] text-xs text-[#3a2630] font-medium">
+                    <div key={i} className="p-3 rounded-xl bg-[#F0FDF4] border border-[#BBF7D0] text-xs text-[#2D2530] font-medium">
                       ✓ {comp}
                     </div>
                   ))}
@@ -198,19 +196,19 @@ const SimilarityAnalysis = () => {
 
           {/* Similar Reference Paradigms */}
           {similarityData.similarProjects && similarityData.similarProjects.length > 0 && (
-            <GlassCard className="p-6 border-[#f3c5d3] bg-white/95">
-              <h3 className="text-sm font-bold text-[#3a2630] mb-4 flex items-center gap-2">
-                <Layers className="w-4 h-4 text-[#e91e63]" />
+            <GlassCard className="p-6 border-[#BAE6FD] bg-white shadow-sm">
+              <h3 className="text-sm font-bold text-[#2D2530] mb-4 flex items-center gap-2 font-heading">
+                <Layers className="w-4 h-4 text-[#0EA5E9]" />
                 Existing Baseline Systems & Literature References
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {similarityData.similarProjects.map((proj, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] space-y-2">
-                    <h4 className="text-xs font-bold text-[#3a2630]">{proj.name}</h4>
-                    <p className="text-xs text-[#6b5560] leading-relaxed">{proj.concept}</p>
+                  <div key={i} className="p-4 rounded-xl bg-[#F0F9FF] border border-[#BAE6FD] space-y-2">
+                    <h4 className="text-xs font-bold text-[#2D2530] font-heading">{proj.name}</h4>
+                    <p className="text-xs text-[#5E5364] leading-relaxed">{proj.concept}</p>
                     <div className="flex flex-wrap gap-1 mt-2">
                       {(proj.overlapAreas || []).map((area, aIdx) => (
-                        <span key={aIdx} className="text-[10px] px-2 py-0.5 rounded bg-[#fce4ec] text-[#e91e63] border border-[#f3c5d3]">
+                        <span key={aIdx} className="text-[10px] px-2 py-0.5 rounded bg-white text-[#0284C7] border border-[#BAE6FD] font-semibold">
                           {area}
                         </span>
                       ))}
@@ -221,16 +219,16 @@ const SimilarityAnalysis = () => {
             </GlassCard>
           )}
 
-          {/* Differentiating Strategies for Defense */}
-          <GlassCard className="p-6 border-[#f3c5d3] bg-[#fff8fa] space-y-3">
-            <h3 className="text-sm font-bold text-[#e91e63] flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
+          {/* Differentiating Strategies for Defense - Soft Gold */}
+          <GlassCard className="p-6 border-[#FDE68A] bg-[#FFFBEB] space-y-3 shadow-sm">
+            <h3 className="text-sm font-bold text-[#D97706] flex items-center gap-2 font-heading">
+              <TrendingUp className="w-4 h-4 text-[#F59E0B]" />
               Strategic Recommendations to Differentiate for Capstone Defense
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {(similarityData.differentiatingStrategies || []).map((strat, i) => (
-                <div key={i} className="p-3.5 rounded-xl bg-white border border-[#f3c5d3] text-xs text-[#3a2630]">
-                  <span className="font-bold text-[#e91e63] block mb-1">Defense Strategy {i + 1}</span>
+                <div key={i} className="p-3.5 rounded-xl bg-white border border-[#FDE68A] text-xs text-[#2D2530]">
+                  <span className="font-bold text-[#D97706] block mb-1">Defense Strategy {i + 1}</span>
                   {strat}
                 </div>
               ))}
