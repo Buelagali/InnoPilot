@@ -27,10 +27,13 @@ const steps = [
   { id: 'proposal', label: '10. Proposal', path: '/proposal', icon: FileCheck2, requiresProject: true, color: 'text-aiViolet-600' },
 ];
 
-const WorkflowStepIndicator = ({ currentStepId }) => {
+const WorkflowStepIndicator = ({ currentStepId, maxSteps }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { activeProject } = useProject();
+
+  const limit = maxSteps !== undefined ? maxSteps : (currentStepId === 'analyzer' ? 3 : undefined);
+  const displayedSteps = limit ? steps.slice(0, limit) : steps;
 
   const handleStepClick = (step) => {
     if (step.requiresProject && !activeProject) {
@@ -44,7 +47,7 @@ const WorkflowStepIndicator = ({ currentStepId }) => {
   return (
     <div className="w-full overflow-x-auto py-2 mb-6 scrollbar-thin">
       <div className="flex items-center min-w-max gap-1 px-1">
-        {steps.map((step, idx) => {
+        {displayedSteps.map((step, idx) => {
           const Icon = step.icon;
           const isCurrent = currentStepId === step.id || location.pathname.includes(step.path);
           const isAccessible = !step.requiresProject || Boolean(activeProject);
@@ -67,7 +70,7 @@ const WorkflowStepIndicator = ({ currentStepId }) => {
                 <span>{step.label}</span>
               </button>
 
-              {idx < steps.length - 1 && (
+              {idx < displayedSteps.length - 1 && (
                 <div className="w-2.5 h-0.5 bg-slate-200 rounded-full flex-shrink-0"></div>
               )}
             </React.Fragment>
