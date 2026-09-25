@@ -87,14 +87,14 @@ const IdeaGenerator = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-semibold mb-2">
-            <Lightbulb className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fce4ec] text-[#e91e63] border border-[#f3c5d3] text-xs font-semibold mb-2">
+            <Lightbulb className="w-3.5 h-3.5 text-[#e91e63]" />
             <span>Module 4 • AI Project Idea Generator</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#3a2630] tracking-tight">
             Generate Architectural Project Ideas
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[#6b5560] mt-1 max-w-2xl">
             Strictly non-generic. Every idea integrates purposeful AI/algorithmic intelligence, robust software architecture, and realistic constraints matching your profile.
           </p>
         </div>
@@ -103,7 +103,7 @@ const IdeaGenerator = () => {
           <button
             onClick={() => handleGenerate()}
             disabled={loading}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold text-xs sm:text-sm shadow-xl hover:scale-105 transition-all flex items-center gap-2 disabled:opacity-50"
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] hover:from-[#d81b60] hover:to-[#e91e63] text-white font-semibold text-xs sm:text-sm shadow-xl shadow-pink-500/20 hover:scale-105 transition-all flex items-center gap-2 disabled:opacity-50"
           >
             <Sparkles className="w-4 h-4" />
             {loading ? 'Generating...' : 'Generate New Solutions'}
@@ -113,20 +113,20 @@ const IdeaGenerator = () => {
 
       {/* Linked Problem Header Banner */}
       {problemData && (
-        <GlassCard className="p-5 border-indigo-500/30 bg-indigo-950/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <GlassCard className="p-5 border-[#f3c5d3] bg-[#fff8fa] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#e91e63]">
               Anchored Problem Context
             </span>
-            <h3 className="text-base font-bold text-white mt-0.5">{problemData.title}</h3>
-            <p className="text-xs text-slate-300 mt-1 line-clamp-2">{problemData.description}</p>
+            <h3 className="text-base font-bold text-[#3a2630] mt-0.5">{problemData.title}</h3>
+            <p className="text-xs text-[#6b5560] mt-1 line-clamp-2">{problemData.description}</p>
           </div>
-          <Badge variant="primary">{problemData.domain}</Badge>
+          <Badge variant="pink">{problemData.domain}</Badge>
         </GlassCard>
       )}
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs sm:text-sm flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-2">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
           <span>{error}</span>
         </div>
@@ -134,15 +134,15 @@ const IdeaGenerator = () => {
 
       {/* Standalone Generation Options if no problem linked */}
       {!problemId && ideas.length === 0 && (
-        <GlassCard className="p-6 border-indigo-500/20">
-          <h3 className="text-sm font-bold text-white mb-3">Instant Domain Generation</h3>
+        <GlassCard className="p-6 border-[#f3c5d3] bg-white/90">
+          <h3 className="text-sm font-bold text-[#3a2630] mb-3">Instant Domain Generation</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Select Domain</label>
+              <label className="block text-xs font-semibold text-[#3a2630] mb-1">Select Domain</label>
               <select
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-slate-900"
+                className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm bg-white text-[#3a2630] border-[#f3c5d3]"
               >
                 <option value="Healthcare & Medicine">Healthcare & Medicine</option>
                 <option value="Education & Accessibility">Education & Accessibility</option>
@@ -156,7 +156,7 @@ const IdeaGenerator = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-[#3a2630] mb-1">
                 Specific Sub-theme or Keyword (Optional)
               </label>
               <input
@@ -164,7 +164,7 @@ const IdeaGenerator = () => {
                 value={customProblemPrompt}
                 onChange={(e) => setCustomProblemPrompt(e.target.value)}
                 placeholder="e.g. Offline edge computing, federated learning"
-                className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm"
+                className="w-full px-3.5 py-2.5 rounded-xl glass-input text-sm text-[#3a2630] placeholder-[#886a7a] border-[#f3c5d3]"
               />
             </div>
           </div>
@@ -174,11 +174,11 @@ const IdeaGenerator = () => {
       {/* Loading Skeleton */}
       {loading && (
         <div className="p-12 text-center space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center mx-auto text-indigo-300 animate-spin">
+          <div className="w-12 h-12 rounded-2xl bg-[#fce4ec] border border-[#f3c5d3] flex items-center justify-center mx-auto text-[#e91e63] animate-spin">
             <Sparkles className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-white">Synthesizing Non-Generic Project Architectures...</h3>
-          <p className="text-xs text-slate-400 max-w-md mx-auto">
+          <h3 className="text-base font-bold text-[#3a2630]">Synthesizing Non-Generic Project Architectures...</h3>
+          <p className="text-xs text-[#6b5560] max-w-md mx-auto">
             Structuring algorithmic pipelines, assessing edge vs cloud feasibility, and validating novelty.
           </p>
         </div>
@@ -188,27 +188,27 @@ const IdeaGenerator = () => {
       {!loading && ideas.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-[#6b5560]">
               Generated Solution Architectures ({ideas.length})
             </h2>
-            <span className="text-xs text-indigo-400">Saved to Project Library</span>
+            <span className="text-xs text-[#e91e63] font-medium">Saved to Project Library</span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {ideas.map((idea, idx) => (
               <GlassCard
                 key={idea._id || idx}
-                className="p-6 border-indigo-500/30 flex flex-col justify-between hover:border-indigo-400/60 transition-all group"
+                className="p-6 border-[#f3c5d3] bg-white/95 flex flex-col justify-between hover:border-[#e91e63]/60 transition-all group shadow-md shadow-pink-500/5"
               >
                 <div className="space-y-4">
                   {/* Card Header Badges */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-white/10">
-                    <Badge variant="primary">{idea.domain || domain}</Badge>
+                  <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#f3c5d3]">
+                    <Badge variant="pink">{idea.domain || domain}</Badge>
                     <Badge
                       variant={
                         idea.difficultyLevel === 'Advanced' || idea.difficultyLevel === 'Research Grade'
-                          ? 'purple'
-                          : 'cyan'
+                          ? 'pink'
+                          : 'rose'
                       }
                     >
                       {idea.difficultyLevel}
@@ -217,28 +217,28 @@ const IdeaGenerator = () => {
 
                   {/* Title & Problem */}
                   <div>
-                    <h3 className="text-base font-bold text-white group-hover:text-indigo-300 transition-colors">
+                    <h3 className="text-base font-bold text-[#3a2630] group-hover:text-[#e91e63] transition-colors">
                       {idea.title}
                     </h3>
-                    <p className="text-xs text-indigo-300/90 font-medium mt-1">
+                    <p className="text-xs text-[#e91e63] font-medium mt-1">
                       Addresses: {idea.problemAddressed}
                     </p>
                   </div>
 
                   {/* Solution Narrative */}
-                  <p className="text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-3.5 rounded-xl border border-white/5">
+                  <p className="text-xs text-[#3a2630] leading-relaxed bg-[#fff8fa] p-3.5 rounded-xl border border-[#f3c5d3]">
                     {idea.proposedSolution}
                   </p>
 
                   {/* Core Features */}
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1.5">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#6b5560] block mb-1.5">
                       Core Features:
                     </span>
                     <ul className="space-y-1">
                       {(idea.coreFeatures || []).slice(0, 3).map((feat, fIdx) => (
-                        <li key={fIdx} className="text-xs text-slate-300 flex items-start gap-2">
-                          <CheckCircle className="w-3.5 h-3.5 text-indigo-400 flex-shrink-0 mt-0.5" />
+                        <li key={fIdx} className="text-xs text-[#3a2630] flex items-start gap-2">
+                          <CheckCircle className="w-3.5 h-3.5 text-[#e91e63] flex-shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </li>
                       ))}
@@ -246,32 +246,32 @@ const IdeaGenerator = () => {
                   </div>
 
                   {/* AI/ML Role */}
-                  <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/20 text-xs">
-                    <span className="font-bold text-indigo-300 flex items-center gap-1 mb-1">
-                      <Cpu className="w-3.5 h-3.5 text-indigo-400" /> AI/ML Intelligence Role:
+                  <div className="p-3 rounded-xl bg-[#fce4ec]/50 border border-[#f3c5d3] text-xs">
+                    <span className="font-bold text-[#e91e63] flex items-center gap-1 mb-1">
+                      <Cpu className="w-3.5 h-3.5 text-[#e91e63]" /> AI/ML Intelligence Role:
                     </span>
-                    <p className="text-slate-300 text-[11px] leading-relaxed">{idea.aiRole}</p>
+                    <p className="text-[#3a2630] text-[11px] leading-relaxed">{idea.aiRole}</p>
                   </div>
 
                   {/* Tech Stack Summary */}
                   {idea.techStack && (
-                    <div className="text-[11px] text-slate-400 flex items-center gap-1.5 flex-wrap">
-                      <Code className="w-3.5 h-3.5 text-purple-400" />
+                    <div className="text-[11px] text-[#6b5560] flex items-center gap-1.5 flex-wrap">
+                      <Code className="w-3.5 h-3.5 text-[#e91e63]" />
                       <span>{[(idea.techStack.frontend || [])[0], (idea.techStack.backend || [])[0], (idea.techStack.aiMl || [])[0]].filter(Boolean).join(' • ')}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Card CTA Footer */}
-                <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-1 text-[11px] text-slate-500">
+                <div className="mt-6 pt-4 border-t border-[#f3c5d3] flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-1 text-[11px] text-[#6b5560]">
                     <Clock className="w-3.5 h-3.5" />
                     <span>{idea.estimatedDevelopmentTime || '3-4 Months'}</span>
                   </div>
 
                   <button
                     onClick={() => handleSelectIdea(idea)}
-                    className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs font-semibold shadow-md shadow-indigo-600/20 hover:scale-105 transition-all flex items-center gap-1.5"
+                    className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] hover:from-[#d81b60] hover:to-[#e91e63] text-white text-xs font-semibold shadow-md shadow-pink-500/20 hover:scale-105 transition-all flex items-center gap-1.5"
                   >
                     <span>Select & Evolve</span>
                     <ArrowRight className="w-3.5 h-3.5" />

@@ -13,13 +13,13 @@ export const GlassCard = ({ children, className = '', interactive = false, ...pr
 
 export const Badge = ({ children, variant = 'default', className = '' }) => {
   const variantStyles = {
-    default: 'bg-slate-800 text-slate-300 border-white/10',
-    primary: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
-    success: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-    warning: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-    danger: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-    purple: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-    cyan: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
+    default: 'bg-[#fff0f5] text-[#6b5560] border-[#f3c5d3]',
+    primary: 'bg-[#fce4ec] text-[#e91e63] border-[#f3c5d3]',
+    success: 'bg-[#fff1f2] text-[#e11d48] border-[#fecdd3]',
+    warning: 'bg-[#fff7ed] text-[#ea580c] border-[#ffedd5]',
+    danger: 'bg-[#ffe4e6] text-[#be123c] border-[#fecdd3]',
+    purple: 'bg-[#fdf2f8] text-[#db2777] border-[#fbcfe8]',
+    cyan: 'bg-[#fff0f5] text-[#ec407a] border-[#f3c5d3]',
   };
 
   return (

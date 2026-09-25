@@ -73,7 +73,7 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <ProjectProvider>
-          <div className="min-h-screen flex flex-col bg-[#090d16] text-slate-100 selection:bg-indigo-500 selection:text-white">
+          <div className="min-h-screen flex flex-col bg-[#fff8fa] text-[#3a2630] selection:bg-pink-500 selection:text-white">
             <Navbar />
             
             <main className="flex-1">

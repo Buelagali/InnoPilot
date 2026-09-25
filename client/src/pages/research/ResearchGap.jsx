@@ -55,15 +55,15 @@ const ResearchGap = () => {
   if (!activeProject) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center space-y-4">
-        <GlassCard className="p-8 border-indigo-500/20">
-          <BookOpen className="w-12 h-12 text-indigo-400 mx-auto mb-3" />
-          <h2 className="text-xl font-bold text-white">No Active Project Selected</h2>
-          <p className="text-xs text-slate-400 max-w-md mx-auto">
+        <GlassCard className="p-8 border-[#f3c5d3] bg-white/95">
+          <BookOpen className="w-12 h-12 text-[#e91e63] mx-auto mb-3" />
+          <h2 className="text-xl font-bold text-[#3a2630]">No Active Project Selected</h2>
+          <p className="text-xs text-[#6b5560] max-w-md mx-auto">
             Please select or generate a project first to identify academic research gaps.
           </p>
           <button
             onClick={() => navigate('/library')}
-            className="mt-4 px-5 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-semibold"
+            className="mt-4 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#e91e63] to-[#ec407a] text-white text-xs font-semibold shadow-md shadow-pink-500/20"
           >
             Go to Project Library
           </button>
@@ -79,14 +79,14 @@ const ResearchGap = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-semibold mb-2">
-            <BookOpen className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fce4ec] text-[#e91e63] border border-[#f3c5d3] text-xs font-semibold mb-2">
+            <BookOpen className="w-3.5 h-3.5 text-[#e91e63]" />
             <span>Module 8 • Research Gap Finder</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#3a2630] tracking-tight">
             Academic Research Gap & Contribution
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[#6b5560] mt-1 max-w-2xl">
             Essential for final-year major projects and thesis publications. The AI structures legitimate research questions and novel contributions without fabricating authors or paper titles.
           </p>
         </div>
@@ -95,14 +95,14 @@ const ResearchGap = () => {
           <button
             onClick={handleRunAnalysis}
             disabled={loading}
-            className="px-4 py-2 rounded-xl glass-panel text-xs text-slate-200 hover:text-white flex items-center gap-1.5"
+            className="px-4 py-2 rounded-xl glass-panel text-xs text-[#6b5560] hover:text-[#3a2630] border border-[#f3c5d3] flex items-center gap-1.5"
           >
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+            <Sparkles className="w-3.5 h-3.5 text-[#e91e63]" />
             {loading ? 'Analyzing...' : 'Re-Discover Gaps'}
           </button>
           <button
             onClick={() => navigate('/architecture')}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs font-semibold shadow-md flex items-center gap-1.5"
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] hover:from-[#d81b60] hover:to-[#e91e63] text-white text-xs font-semibold shadow-md shadow-pink-500/20 hover:scale-105 transition-all flex items-center gap-1.5"
           >
             <span>Next: Architecture Blueprint</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -111,7 +111,7 @@ const ResearchGap = () => {
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs sm:text-sm flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-2">
           <ShieldAlert className="w-4 h-4 flex-shrink-0" />
           <span>{error}</span>
         </div>
@@ -119,11 +119,11 @@ const ResearchGap = () => {
 
       {loading && (
         <div className="p-12 text-center space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center mx-auto text-indigo-300 animate-spin">
+          <div className="w-12 h-12 rounded-2xl bg-[#fce4ec] border border-[#f3c5d3] flex items-center justify-center mx-auto text-[#e91e63] animate-spin">
             <Sparkles className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-white">Formulating Academic Research Gaps...</h3>
-          <p className="text-xs text-slate-400 max-w-md mx-auto">
+          <h3 className="text-base font-bold text-[#3a2630]">Formulating Academic Research Gaps...</h3>
+          <p className="text-xs text-[#6b5560] max-w-md mx-auto">
             Contrasting state-of-the-art baselines, articulating empirical novelties, and framing formal research questions.
           </p>
         </div>
@@ -132,33 +132,33 @@ const ResearchGap = () => {
       {gapData && !loading && (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
           {/* Observed Research Gap Hero Banner */}
-          <GlassCard className="p-6 sm:p-8 border-indigo-500/30 bg-gradient-to-b from-slate-900/90 to-slate-950/90">
-            <Badge variant="purple" className="mb-3">
-              <GraduationCap className="w-3.5 h-3.5" /> Core Research Whitespace
+          <GlassCard className="p-6 sm:p-8 border-[#f3c5d3] bg-white/95 shadow-xl shadow-pink-500/5">
+            <Badge variant="pink" className="mb-3">
+              <GraduationCap className="w-3.5 h-3.5 text-[#e91e63]" /> Core Research Whitespace
             </Badge>
-            <h2 className="text-xl sm:text-2xl font-bold text-white leading-relaxed">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#3a2630] leading-relaxed">
               {gapData.observedResearchGap}
             </h2>
-            <div className="mt-4 p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/20 text-xs text-indigo-200 leading-relaxed">
-              <span className="font-bold block mb-1">Proposed Methodological Innovation:</span>
+            <div className="mt-4 p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] text-xs text-[#3a2630] leading-relaxed">
+              <span className="font-bold text-[#e91e63] block mb-1">Proposed Methodological Innovation:</span>
               {gapData.proposedImprovement}
             </div>
           </GlassCard>
 
           {/* Existing Baselines vs Limitations */}
-          <GlassCard className="p-6 border-indigo-500/20">
-            <h3 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
-              <Layers className="w-4 h-4 text-amber-400" />
+          <GlassCard className="p-6 border-[#f3c5d3] bg-white/95">
+            <h3 className="text-sm font-bold text-[#3a2630] mb-4 flex items-center gap-2">
+              <Layers className="w-4 h-4 text-[#e91e63]" />
               Existing Paradigms & Their Known Limitations
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {(gapData.existingApproaches || []).map((app, i) => (
-                <div key={i} className="p-4 rounded-xl bg-slate-900/60 border border-white/5 space-y-2 text-xs">
-                  <h4 className="font-bold text-white">{app.paradigm}</h4>
-                  <p className="text-slate-400 leading-relaxed">{app.mechanism}</p>
-                  <div className="pt-2 border-t border-white/5 space-y-1">
-                    <span className="font-semibold text-rose-300 block text-[11px]">Known Limitations:</span>
-                    <ul className="space-y-0.5 text-slate-300">
+                <div key={i} className="p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] space-y-2 text-xs">
+                  <h4 className="font-bold text-[#3a2630]">{app.paradigm}</h4>
+                  <p className="text-[#6b5560] leading-relaxed">{app.mechanism}</p>
+                  <div className="pt-2 border-t border-[#f3c5d3] space-y-1">
+                    <span className="font-semibold text-[#e91e63] block text-[11px]">Known Limitations:</span>
+                    <ul className="space-y-0.5 text-[#6b5560]">
                       {(app.knownLimitations || []).map((lim, lIdx) => (
                         <li key={lIdx}>• {lim}</li>
                       ))}
@@ -170,15 +170,15 @@ const ResearchGap = () => {
           </GlassCard>
 
           {/* Formulated Research Questions (RQs) */}
-          <GlassCard className="p-6 border-indigo-500/20 space-y-4">
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <HelpCircle className="w-4 h-4 text-indigo-400" />
+          <GlassCard className="p-6 border-[#f3c5d3] bg-white/95 space-y-4">
+            <h3 className="text-sm font-bold text-[#3a2630] flex items-center gap-2">
+              <HelpCircle className="w-4 h-4 text-[#e91e63]" />
               Formulated Research Questions (For Thesis Defense)
             </h3>
             <div className="space-y-3">
               {(gapData.researchQuestions || []).map((rq, i) => (
-                <div key={i} className="p-4 rounded-xl bg-slate-900/80 border border-indigo-500/20 text-xs text-slate-200 flex items-start gap-3">
-                  <span className="font-mono font-bold text-indigo-400 px-2 py-0.5 rounded bg-indigo-950/60 border border-indigo-500/30">
+                <div key={i} className="p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] text-xs text-[#3a2630] flex items-start gap-3">
+                  <span className="font-mono font-bold text-[#e91e63] px-2 py-0.5 rounded bg-[#fce4ec] border border-[#f3c5d3]">
                     RQ{i + 1}
                   </span>
                   <p className="leading-relaxed font-medium mt-0.5">{rq}</p>
@@ -189,30 +189,30 @@ const ResearchGap = () => {
 
           {/* Academic Contributions & Metrics Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <GlassCard className="p-6 border-indigo-500/20 space-y-3">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <Award className="w-4 h-4 text-emerald-400" />
+            <GlassCard className="p-6 border-[#f3c5d3] bg-white/95 space-y-3">
+              <h3 className="text-sm font-bold text-[#3a2630] flex items-center gap-2">
+                <Award className="w-4 h-4 text-[#e91e63]" />
                 Expected Academic Contributions
               </h3>
-              <ul className="space-y-2 text-xs text-slate-300">
+              <ul className="space-y-2 text-xs text-[#3a2630]">
                 {(gapData.expectedAcademicContribution || []).map((c, i) => (
-                  <li key={i} className="p-3 rounded-xl bg-slate-900/50 border border-emerald-500/20 flex items-start gap-2">
-                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                  <li key={i} className="p-3 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] flex items-start gap-2">
+                    <CheckCircle className="w-3.5 h-3.5 text-[#e91e63] flex-shrink-0 mt-0.5" />
                     <span>{c}</span>
                   </li>
                 ))}
               </ul>
             </GlassCard>
 
-            <GlassCard className="p-6 border-indigo-500/20 space-y-3">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-cyan-400" />
+            <GlassCard className="p-6 border-[#f3c5d3] bg-white/95 space-y-3">
+              <h3 className="text-sm font-bold text-[#3a2630] flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-[#ec407a]" />
                 Suggested Benchmark Evaluation Metrics
               </h3>
-              <ul className="space-y-2 text-xs text-slate-300">
+              <ul className="space-y-2 text-xs text-[#3a2630]">
                 {(gapData.suggestedEvaluationMetrics || []).map((m, i) => (
-                  <li key={i} className="p-3 rounded-xl bg-slate-900/50 border border-cyan-500/20 flex items-start gap-2">
-                    <span className="w-2 h-2 rounded-full bg-cyan-400 flex-shrink-0 mt-1.5"></span>
+                  <li key={i} className="p-3 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] flex items-start gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#ec407a] flex-shrink-0 mt-1.5"></span>
                     <span>{m}</span>
                   </li>
                 ))}
@@ -221,7 +221,7 @@ const ResearchGap = () => {
           </div>
 
           {/* Integrity Note */}
-          <div className="p-4 rounded-xl bg-slate-900/40 border border-white/5 text-[11px] text-slate-400 text-center">
+          <div className="p-4 rounded-xl bg-[#fff8fa] border border-[#f3c5d3] text-[11px] text-[#6b5560] text-center">
             {gapData.academicIntegrityNote}
           </div>
         </div>

@@ -112,22 +112,22 @@ const IdeaEvolution = () => {
   if (!activeProject) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center space-y-4">
-        <GlassCard className="p-8 border-indigo-500/20">
-          <GitBranch className="w-12 h-12 text-indigo-400 mx-auto mb-3" />
-          <h2 className="text-xl font-bold text-white">No Active Project Selected</h2>
-          <p className="text-xs text-slate-400 max-w-md mx-auto">
+        <GlassCard className="p-8 border-[#f3c5d3] bg-white/95">
+          <GitBranch className="w-12 h-12 text-[#e91e63] mx-auto mb-3" />
+          <h2 className="text-xl font-bold text-[#3a2630]">No Active Project Selected</h2>
+          <p className="text-xs text-[#6b5560] max-w-md mx-auto">
             Please select an existing project from your library or generate a new idea first.
           </p>
           <div className="mt-5 flex items-center justify-center gap-3">
             <button
               onClick={() => navigate('/library')}
-              className="px-5 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-semibold"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#e91e63] to-[#ec407a] text-white text-xs font-semibold shadow-md shadow-pink-500/20"
             >
               Open Project Library
             </button>
             <button
               onClick={() => navigate('/discover')}
-              className="px-5 py-2.5 rounded-xl glass-panel text-slate-300 text-xs font-semibold"
+              className="px-5 py-2.5 rounded-xl glass-panel text-[#6b5560] hover:text-[#3a2630] text-xs font-semibold border border-[#f3c5d3]"
             >
               Discover Problems
             </button>
@@ -144,25 +144,25 @@ const IdeaEvolution = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-semibold mb-2">
-            <GitBranch className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fce4ec] text-[#e91e63] border border-[#f3c5d3] text-xs font-semibold mb-2">
+            <GitBranch className="w-3.5 h-3.5 text-[#e91e63]" />
             <span>Module 5 • Idea Evolution Engine</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#3a2630] tracking-tight">
             Iterate & Perfect Your Project Concept
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[#6b5560] mt-1 max-w-2xl">
             Continuously evolve your project using targeted AI transformations. Every major iteration is stored as an immutable version in MongoDB so you can compare or restore anytime.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <Badge variant="purple" className="text-sm px-3 py-1">
+          <Badge variant="pink" className="text-sm px-3 py-1">
             Current: v{activeProject.currentVersion || 1}
           </Badge>
           <button
             onClick={() => navigate('/similarity')}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs font-semibold shadow-md flex items-center gap-1.5"
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] hover:from-[#d81b60] hover:to-[#e91e63] text-white text-xs font-semibold shadow-md shadow-pink-500/20 hover:scale-105 transition-all flex items-center gap-1.5"
           >
             <span>Next: Similarity Check</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -171,14 +171,14 @@ const IdeaEvolution = () => {
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs sm:text-sm flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-2">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
       {successMsg && (
-        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm flex items-center gap-2 animate-in fade-in">
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs sm:text-sm flex items-center gap-2 animate-in fade-in">
           <Check className="w-4 h-4 flex-shrink-0" />
           <span>{successMsg}</span>
         </div>
@@ -188,55 +188,55 @@ const IdeaEvolution = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Active Version Detail & Action Triggers */}
         <div className="lg:col-span-2 space-y-6">
-          <GlassCard className="p-6 sm:p-8 border-indigo-500/30">
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-white/10 mb-4">
+          <GlassCard className="p-6 sm:p-8 border-[#f3c5d3] bg-white/95 shadow-md shadow-pink-500/5">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[#f3c5d3] mb-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#e91e63]">
                   Active Idea Snapshot
                 </span>
-                <h2 className="text-xl sm:text-2xl font-bold text-white mt-0.5">{activeProject.title}</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-[#3a2630] mt-0.5">{activeProject.title}</h2>
               </div>
-              <Badge variant="primary">{activeProject.difficultyLevel || 'Intermediate'}</Badge>
+              <Badge variant="pink">{activeProject.difficultyLevel || 'Intermediate'}</Badge>
             </div>
 
             <div className="space-y-4 text-xs sm:text-sm">
               <div>
-                <span className="font-bold text-slate-400 uppercase text-[11px] block mb-1">Problem Focus:</span>
-                <p className="text-slate-300 bg-slate-900/60 p-3 rounded-xl border border-white/5">
+                <span className="font-bold text-[#6b5560] uppercase text-[11px] block mb-1">Problem Focus:</span>
+                <p className="text-[#3a2630] bg-[#fff8fa] p-3 rounded-xl border border-[#f3c5d3]">
                   {activeProject.problemAddressed}
                 </p>
               </div>
 
               <div>
-                <span className="font-bold text-slate-400 uppercase text-[11px] block mb-1">Proposed Architecture:</span>
-                <p className="text-slate-300 bg-slate-900/60 p-3 rounded-xl border border-white/5 leading-relaxed">
+                <span className="font-bold text-[#6b5560] uppercase text-[11px] block mb-1">Proposed Architecture:</span>
+                <p className="text-[#3a2630] bg-[#fff8fa] p-3 rounded-xl border border-[#f3c5d3] leading-relaxed">
                   {activeProject.proposedSolution}
                 </p>
               </div>
 
               <div>
-                <span className="font-bold text-slate-400 uppercase text-[11px] block mb-1">Core Features:</span>
+                <span className="font-bold text-[#6b5560] uppercase text-[11px] block mb-1">Core Features:</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {(activeProject.coreFeatures || []).map((feat, i) => (
-                    <div key={i} className="p-2.5 rounded-lg bg-slate-900/40 border border-white/5 text-slate-300 text-xs flex items-start gap-2">
-                      <CheckCircle className="w-3.5 h-3.5 text-indigo-400 flex-shrink-0 mt-0.5" />
+                    <div key={i} className="p-2.5 rounded-lg bg-[#fff8fa] border border-[#f3c5d3] text-[#3a2630] text-xs flex items-start gap-2">
+                      <CheckCircle className="w-3.5 h-3.5 text-[#e91e63] flex-shrink-0 mt-0.5" />
                       <span>{feat}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-500/20">
-                <span className="font-bold text-indigo-300 block mb-1">AI / ML Integration:</span>
-                <p className="text-slate-300 text-xs leading-relaxed">{activeProject.aiRole}</p>
+              <div className="p-3.5 rounded-xl bg-[#fce4ec]/50 border border-[#f3c5d3]">
+                <span className="font-bold text-[#e91e63] block mb-1">AI / ML Integration:</span>
+                <p className="text-[#3a2630] text-xs leading-relaxed">{activeProject.aiRole}</p>
               </div>
             </div>
           </GlassCard>
 
           {/* Evolution Action Bar */}
-          <GlassCard className="p-6 border-indigo-500/20 space-y-4">
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <Zap className="w-4 h-4 text-indigo-400" />
+          <GlassCard className="p-6 border-[#f3c5d3] bg-white/90 space-y-4">
+            <h3 className="text-sm font-bold text-[#3a2630] flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#e91e63]" />
               Evolve to Version {(activeProject.currentVersion || 1) + 1}
             </h3>
 
@@ -247,7 +247,7 @@ const IdeaEvolution = () => {
                 value={customInstruction}
                 onChange={(e) => setCustomInstruction(e.target.value)}
                 placeholder="Optional custom instruction: e.g., 'Optimize for mobile web on low-bandwidth networks'..."
-                className="w-full px-3.5 py-2.5 rounded-xl glass-input text-xs sm:text-sm"
+                className="w-full px-3.5 py-2.5 rounded-xl glass-input text-xs sm:text-sm text-[#3a2630] placeholder-[#886a7a] border-[#f3c5d3]"
                 disabled={loading}
               />
             </div>
@@ -262,16 +262,16 @@ const IdeaEvolution = () => {
                     key={i}
                     onClick={() => handleEvolve(act.label)}
                     disabled={loading}
-                    className="p-3 rounded-xl glass-panel-interactive text-left border border-white/5 hover:border-indigo-500/40 flex items-start gap-3 disabled:opacity-50 disabled:cursor-not-allowed group"
+                    className="p-3 rounded-xl bg-[#fff8fa] text-left border border-[#f3c5d3] hover:border-[#e91e63] hover:shadow-md hover:shadow-pink-500/10 flex items-start gap-3 disabled:opacity-50 disabled:cursor-not-allowed group transition-all"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-indigo-600/20 text-indigo-400 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                      {isThisLoading ? <Sparkles className="w-4 h-4 animate-spin text-indigo-300" /> : <Icon className="w-4 h-4" />}
+                    <div className="w-8 h-8 rounded-lg bg-[#fce4ec] text-[#e91e63] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                      {isThisLoading ? <Sparkles className="w-4 h-4 animate-spin text-[#e91e63]" /> : <Icon className="w-4 h-4" />}
                     </div>
                     <div>
-                      <span className="text-xs font-bold text-white block group-hover:text-indigo-300 transition-colors">
+                      <span className="text-xs font-bold text-[#3a2630] block group-hover:text-[#e91e63] transition-colors">
                         {act.label}
                       </span>
-                      <span className="text-[11px] text-slate-400 leading-tight block mt-0.5">
+                      <span className="text-[11px] text-[#6b5560] leading-tight block mt-0.5">
                         {act.desc}
                       </span>
                     </div>
@@ -284,12 +284,12 @@ const IdeaEvolution = () => {
 
         {/* Right Col: Version History & Comparison */}
         <div className="space-y-6">
-          <GlassCard className="p-6 border-indigo-500/20">
-            <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
-              <History className="w-4 h-4 text-purple-400" />
+          <GlassCard className="p-6 border-[#f3c5d3] bg-white/95">
+            <h3 className="text-sm font-bold text-[#3a2630] mb-3 flex items-center gap-2">
+              <History className="w-4 h-4 text-[#e91e63]" />
               Version Evolution History ({versions.length})
             </h3>
-            <p className="text-xs text-slate-400 mb-4">
+            <p className="text-xs text-[#6b5560] mb-4">
               Stored in MongoDB. Click any version to inspect its snapshot or restore it.
             </p>
 
@@ -301,14 +301,14 @@ const IdeaEvolution = () => {
                     key={ver._id}
                     className={`p-3.5 rounded-xl border transition-all ${
                       isCurrent
-                        ? 'bg-indigo-950/50 border-indigo-500/50'
-                        : 'bg-slate-900/60 border-white/5 hover:border-white/20'
+                        ? 'bg-[#fce4ec]/60 border-[#e91e63]'
+                        : 'bg-[#fff8fa] border-[#f3c5d3] hover:border-[#e91e63]/40'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-white font-mono">v{ver.versionNumber}</span>
-                        <Badge variant={isCurrent ? 'success' : 'default'} className="text-[10px]">
+                        <span className="text-xs font-bold text-[#3a2630] font-mono">v{ver.versionNumber}</span>
+                        <Badge variant={isCurrent ? 'pink' : 'rose'} className="text-[10px]">
                           {isCurrent ? 'Active' : ver.evolutionAction}
                         </Badge>
                       </div>
@@ -317,7 +317,7 @@ const IdeaEvolution = () => {
                         <button
                           onClick={() => handleRestoreVersion(ver.versionNumber)}
                           disabled={loading}
-                          className="text-[11px] text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-medium"
+                          className="text-[11px] text-[#e91e63] hover:text-[#d81b60] flex items-center gap-1 font-medium"
                         >
                           <RotateCcw className="w-3 h-3" />
                           Restore
@@ -325,11 +325,11 @@ const IdeaEvolution = () => {
                       )}
                     </div>
 
-                    <p className="text-[11px] text-slate-300 mt-2 leading-relaxed">
+                    <p className="text-[11px] text-[#3a2630] mt-2 leading-relaxed">
                       {ver.changeSummary || 'Version snapshot recorded.'}
                     </p>
 
-                    <span className="text-[10px] text-slate-500 block mt-2">
+                    <span className="text-[10px] text-[#6b5560] block mt-2">
                       {new Date(ver.createdAt).toLocaleDateString()} at {new Date(ver.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>

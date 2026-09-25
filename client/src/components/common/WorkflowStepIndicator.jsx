@@ -56,19 +56,19 @@ const WorkflowStepIndicator = ({ currentStepId }) => {
                 disabled={!isAccessible}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                   isCurrent
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30 scale-105'
+                    ? 'bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#d81b60] text-white shadow-md shadow-pink-500/25 scale-105'
                     : isAccessible
-                    ? 'bg-slate-900/60 text-slate-300 hover:text-white hover:bg-slate-800 border border-white/5'
-                    : 'bg-slate-950/40 text-slate-600 border border-transparent cursor-not-allowed opacity-60'
+                    ? 'bg-white/85 text-[#6b5560] hover:text-[#3a2630] hover:bg-[#fff0f5] border border-[#f3c5d3]'
+                    : 'bg-[#fff8fa]/60 text-[#b59aa7] border border-[#fce4ec] cursor-not-allowed opacity-60'
                 }`}
                 title={!isAccessible ? 'Generate or select a project first' : step.label}
               >
-                <Icon className={`w-3.5 h-3.5 ${isCurrent ? 'text-white' : 'text-indigo-400'}`} />
+                <Icon className={`w-3.5 h-3.5 ${isCurrent ? 'text-white' : 'text-[#e91e63]'}`} />
                 <span>{step.label}</span>
               </button>
 
               {idx < steps.length - 1 && (
-                <div className="w-3 h-0.5 bg-slate-800/80 rounded-full flex-shrink-0"></div>
+                <div className="w-3 h-0.5 bg-[#f3c5d3] rounded-full flex-shrink-0"></div>
               )}
             </React.Fragment>
           );

@@ -38,35 +38,35 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-[#ffffff] via-[#fffdfd] to-[#fff8fa]">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-indigo-600/30">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#e91e63] via-[#ec407a] to-[#f48fb1] flex items-center justify-center mx-auto mb-4 shadow-xl shadow-pink-500/25">
             <Sparkles className="w-6 h-6 text-white" />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">Welcome Back</h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#3a2630] tracking-tight font-heading">Welcome Back</h1>
+          <p className="text-xs sm:text-sm text-[#6b5560] mt-1 font-normal">
             Access your AI project portfolio and ongoing discoveries
           </p>
         </div>
 
         {/* Form Card */}
-        <GlassCard className="p-6 sm:p-8 border-indigo-500/20">
+        <GlassCard className="p-6 sm:p-8 border-[#f3c5d3] shadow-lg shadow-pink-200/25">
           {error && (
-            <div className="mb-5 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-start gap-3 text-rose-300 text-xs sm:text-sm">
-              <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5" />
+            <div className="mb-5 p-3.5 rounded-xl bg-[#fff1f2] border border-[#fecdd3] flex items-start gap-3 text-[#be123c] text-xs sm:text-sm">
+              <AlertCircle className="w-4 h-4 text-[#e11d48] flex-shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-[#3a2630] uppercase tracking-wider mb-1.5">
                 Email Address
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#9c8290]">
                   <Mail className="w-4 h-4" />
                 </div>
                 <input
@@ -81,11 +81,11 @@ const Login = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-[#3a2630] uppercase tracking-wider mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#9c8290]">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -102,11 +102,11 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 py-3 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 text-white font-semibold text-sm shadow-lg shadow-indigo-600/30 hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full mt-2 py-3 rounded-xl bg-gradient-to-r from-[#e91e63] via-[#ec407a] to-[#f43f5e] text-white font-semibold text-sm shadow-lg shadow-pink-500/25 hover:shadow-pink-500/40 hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
-                  <Sparkles className="w-4 h-4 animate-spin" />
+                  <Sparkles className="w-4 h-4 animate-spin text-white" />
                   <span>Signing in...</span>
                 </>
               ) : (
@@ -118,9 +118,9 @@ const Login = () => {
             </button>
           </form>
 
-          <div className="mt-6 pt-5 border-t border-white/5 text-center text-xs text-slate-400">
+          <div className="mt-6 pt-5 border-t border-[#f3c5d3]/70 text-center text-xs text-[#6b5560]">
             Don't have an account?{' '}
-            <Link to="/register" className="text-indigo-400 hover:text-indigo-300 font-semibold">
+            <Link to="/register" className="text-[#e91e63] hover:text-[#d81b60] font-semibold">
               Create Student Profile
             </Link>
           </div>
