@@ -67,38 +67,40 @@ const FloatingAssistant = () => {
 
   return (
     <>
-      {/* Floating Action Trigger Button with Multi-Color Gradient */}
+      {/* Floating Action Trigger Button with AI Mascot Style */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-[#E91E63] via-[#FB923C] to-[#F59E0B] text-white shadow-xl shadow-pink-500/25 hover:scale-105 hover:shadow-orange-500/40 transition-all border border-white/50 group"
+          className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-aiCyan-500 via-aiViolet-600 to-aiPink-500 text-white shadow-xl shadow-aiViolet-500/30 hover:scale-105 hover:shadow-aiViolet-500/50 transition-all border border-white/60 group"
           aria-label="Open AI Assistant"
         >
-          <Sparkles className="w-5 h-5 animate-pulse text-white" />
-          <span className="font-semibold text-sm tracking-wide">AI Companion</span>
+          <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+            <Bot className="w-4 h-4 text-white animate-pulse" />
+          </div>
+          <span className="font-bold text-xs tracking-wide">AI Companion</span>
           {activeProject && (
-            <span className="w-2 h-2 rounded-full bg-white shadow-xs"></span>
+            <span className="w-2 h-2 rounded-full bg-aiCyan-300 shadow-xs animate-ping"></span>
           )}
         </button>
       )}
 
       {/* Floating Dialog Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-4 sm:right-6 z-50 w-[92vw] sm:w-[420px] h-[580px] max-h-[85vh] rounded-2xl bg-white/98 backdrop-blur-xl flex flex-col border border-[#F1E4EC] shadow-2xl animate-in fade-in slide-in-from-bottom-5 text-[#2D2530]">
+        <div className="fixed bottom-6 right-4 sm:right-6 z-50 w-[92vw] sm:w-[420px] h-[580px] max-h-[85vh] rounded-3xl bg-white/95 backdrop-blur-2xl flex flex-col border border-white/90 shadow-2xl shadow-aiViolet-500/15 animate-in fade-in slide-in-from-bottom-5 text-textDark">
           {/* Header */}
-          <div className="p-3.5 border-b border-[#F1E4EC] flex items-center justify-between bg-gradient-to-r from-[#FFF1F6] to-[#FFF7ED] rounded-t-2xl">
+          <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-aiViolet-50 via-aiCyan-50 to-white rounded-t-3xl">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#FFF1F6] border border-[#FBCFE8] flex items-center justify-center text-[#E91E63]">
-                <Bot className="w-4 h-4" />
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-aiCyan-400 to-aiViolet-600 flex items-center justify-center text-white shadow-xs">
+                <Bot className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-[#2D2530] flex items-center gap-1.5 font-heading">
+                <h3 className="text-sm font-bold text-textDark flex items-center gap-1.5 font-heading">
                   InnoPilot Companion
-                  <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-[#F0FDF4] text-[#15803D] border border-[#BBF7D0]">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-aiMint-100 text-emerald-800 border border-aiMint-200">
                     Live
                   </span>
                 </h3>
-                <p className="text-[11px] text-[#5E5364] truncate max-w-[220px]">
+                <p className="text-[11px] text-textMuted truncate max-w-[210px]">
                   {activeProject ? `Context: ${activeProject.title}` : 'General Project Innovation'}
                 </p>
               </div>
@@ -106,20 +108,20 @@ const FloatingAssistant = () => {
 
             <button
               onClick={() => setIsOpen(false)}
-              className="p-1 rounded-lg text-[#5E5364] hover:text-[#2D2530] hover:bg-white transition-colors"
+              className="p-1.5 rounded-full text-textMuted hover:text-textDark hover:bg-slate-100 transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
           {/* Quick Prompt Carousel */}
-          <div className="px-3 py-2 bg-[#FAF8FB] border-b border-[#F1E4EC] flex gap-1.5 overflow-x-auto scrollbar-none">
+          <div className="px-3 py-2 bg-slate-50/80 border-b border-slate-100 flex gap-1.5 overflow-x-auto scrollbar-none">
             {promptShortcuts.map((shortcut, i) => (
               <button
                 key={i}
                 onClick={() => handleSend(shortcut)}
                 disabled={loading}
-                className="whitespace-nowrap px-2.5 py-1 rounded-full text-[11px] bg-white hover:bg-[#FFF7ED] text-[#5E5364] hover:text-[#EA580C] border border-[#F1E4EC] transition-all flex-shrink-0 shadow-2xs font-medium"
+                className="whitespace-nowrap px-3 py-1 rounded-full text-[11px] bg-white hover:bg-aiViolet-50 text-textBody hover:text-aiViolet-700 border border-slate-200 transition-all flex-shrink-0 shadow-2xs font-semibold"
               >
                 {shortcut}
               </button>
@@ -127,22 +129,22 @@ const FloatingAssistant = () => {
           </div>
 
           {/* Message Stream */}
-          <div className="flex-1 p-3.5 overflow-y-auto space-y-3.5 text-sm">
+          <div className="flex-1 p-4 overflow-y-auto space-y-3.5 text-sm">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
                 className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.sender === 'ai' && (
-                  <div className="w-6 h-6 rounded-md bg-[#FFF1F6] border border-[#FBCFE8] flex items-center justify-center text-[#E91E63] flex-shrink-0 mt-0.5">
-                    <Sparkles className="w-3.5 h-3.5" />
+                  <div className="w-7 h-7 rounded-xl bg-gradient-to-tr from-aiCyan-400 to-aiViolet-500 flex items-center justify-center text-white flex-shrink-0 mt-0.5 shadow-2xs">
+                    <Bot className="w-3.5 h-3.5" />
                   </div>
                 )}
                 <div
-                  className={`max-w-[82%] px-3.5 py-2.5 rounded-2xl leading-relaxed text-xs sm:text-sm ${
+                  className={`max-w-[82%] px-4 py-2.5 rounded-2xl leading-relaxed text-xs sm:text-sm ${
                     msg.sender === 'user'
-                      ? 'bg-gradient-to-r from-[#E91E63] via-[#FB923C] to-[#F59E0B] text-white rounded-br-none shadow-md shadow-pink-500/20'
-                      : 'bg-[#FAF8FB] text-[#2D2530] rounded-bl-none border border-[#F1E4EC] whitespace-pre-line shadow-2xs'
+                      ? 'bg-gradient-to-r from-aiCyan-500 via-aiViolet-600 to-aiPink-500 text-white rounded-br-none shadow-md shadow-aiViolet-500/20 font-medium'
+                      : 'bg-slate-50 text-textDark rounded-bl-none border border-slate-200 whitespace-pre-line shadow-2xs'
                   }`}
                 >
                   {msg.text}
@@ -151,40 +153,36 @@ const FloatingAssistant = () => {
             ))}
 
             {loading && (
-              <div className="flex gap-2.5 items-center text-[#E91E63] text-xs italic pl-2">
-                <Sparkles className="w-4 h-4 animate-spin text-[#FB923C]" />
-                <span>Formulating contextual engineering response...</span>
+              <div className="flex items-center gap-2 text-aiViolet-600 text-xs italic font-medium pl-1">
+                <Sparkles className="w-3.5 h-3.5 animate-spin" />
+                <span>Companion analyzing capstone context...</span>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input Box */}
+          {/* Input Bar */}
           <form
             onSubmit={(e) => {
               e.preventDefault();
               handleSend();
             }}
-            className="p-3 border-t border-[#F1E4EC] bg-white rounded-b-2xl flex gap-2"
+            className="p-3 border-t border-slate-100 flex gap-2 bg-white/95 rounded-b-3xl"
           >
             <input
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              placeholder={
-                activeProject
-                  ? "Ask anything about your current project..."
-                  : "Ask about ideas, domains, or architectures..."
-              }
-              className="flex-1 glass-input rounded-xl px-3.5 py-2 text-xs sm:text-sm placeholder:text-[#8E8295] focus:outline-none"
+              placeholder={activeProject ? `Ask about ${activeProject.title}...` : 'Ask your AI companion...'}
+              className="flex-1 glass-input rounded-2xl px-4 py-2 text-xs focus:ring-1 focus:ring-aiViolet-400"
               disabled={loading}
             />
             <button
               type="submit"
               disabled={loading || !inputMessage.trim()}
-              className="px-3 py-2 rounded-xl bg-gradient-to-r from-[#E91E63] to-[#FB923C] text-white hover:opacity-95 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-md flex items-center justify-center"
+              className="px-4 py-2 rounded-2xl bg-gradient-to-r from-aiCyan-500 via-aiViolet-600 to-aiPink-500 text-white text-xs font-bold shadow-md shadow-aiViolet-500/20 hover:scale-105 disabled:opacity-50 transition-all flex items-center gap-1.5"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-3.5 h-3.5" />
             </button>
           </form>
         </div>

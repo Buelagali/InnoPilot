@@ -15,16 +15,16 @@ import {
 } from 'lucide-react';
 
 const steps = [
-  { id: 'discover', label: '1. Discovery', path: '/discover', icon: Compass, color: 'text-[#EA580C]' },
-  { id: 'analyzer', label: '2. Analysis', path: '/analyzer', icon: Search, color: 'text-[#0284C7]' },
-  { id: 'generator', label: '3. Idea Gen', path: '/generate', icon: Lightbulb, requiresProject: false, color: 'text-[#D97706]' },
-  { id: 'evolution', label: '4. Evolution', path: '/evolve', icon: GitBranch, requiresProject: true, color: 'text-[#E91E63]' },
-  { id: 'similarity', label: '5. Similarity', path: '/similarity', icon: CopyCheck, requiresProject: true, color: 'text-[#0369A1]' },
-  { id: 'feasibility', label: '6. Feasibility', path: '/feasibility', icon: CheckCircle2, requiresProject: true, color: 'text-[#15803D]' },
-  { id: 'research', label: '7. Research Gap', path: '/research-gap', icon: BookOpen, requiresProject: true, color: 'text-[#B45309]' },
-  { id: 'architecture', label: '8. Architecture', path: '/architecture', icon: Cpu, requiresProject: true, color: 'text-[#0284C7]' },
-  { id: 'roadmap', label: '9. Roadmap', path: '/roadmap', icon: MapPin, requiresProject: true, color: 'text-[#15803D]' },
-  { id: 'proposal', label: '10. Proposal', path: '/proposal', icon: FileCheck2, requiresProject: true, color: 'text-[#E91E63]' },
+  { id: 'discover', label: '1. Discovery', path: '/discover', icon: Compass, color: 'text-aiPeach-500' },
+  { id: 'analyzer', label: '2. Analysis', path: '/analyzer', icon: Search, color: 'text-aiCyan-600' },
+  { id: 'generator', label: '3. Idea Gen', path: '/generate', icon: Lightbulb, requiresProject: false, color: 'text-aiGold-500' },
+  { id: 'evolution', label: '4. Evolution', path: '/evolve', icon: GitBranch, requiresProject: true, color: 'text-aiPink-500' },
+  { id: 'similarity', label: '5. Similarity', path: '/similarity', icon: CopyCheck, requiresProject: true, color: 'text-aiSky-600' },
+  { id: 'feasibility', label: '6. Feasibility', path: '/feasibility', icon: CheckCircle2, requiresProject: true, color: 'text-aiMint-600' },
+  { id: 'research', label: '7. Research Gap', path: '/research-gap', icon: BookOpen, requiresProject: true, color: 'text-aiGold-600' },
+  { id: 'architecture', label: '8. Architecture', path: '/architecture', icon: Cpu, requiresProject: true, color: 'text-aiCyan-600' },
+  { id: 'roadmap', label: '9. Roadmap', path: '/roadmap', icon: MapPin, requiresProject: true, color: 'text-aiMint-600' },
+  { id: 'proposal', label: '10. Proposal', path: '/proposal', icon: FileCheck2, requiresProject: true, color: 'text-aiViolet-600' },
 ];
 
 const WorkflowStepIndicator = ({ currentStepId }) => {
@@ -54,12 +54,12 @@ const WorkflowStepIndicator = ({ currentStepId }) => {
               <button
                 onClick={() => handleStepClick(step)}
                 disabled={!isAccessible}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 border ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all duration-200 border ${
                   isCurrent
-                    ? 'bg-gradient-to-r from-[#E91E63] via-[#FB923C] to-[#F59E0B] text-white shadow-md shadow-pink-500/20 scale-105 border-transparent'
+                    ? 'bg-gradient-to-r from-aiCyan-500 via-aiViolet-600 to-aiPink-500 text-white shadow-md shadow-aiViolet-500/25 scale-105 border-transparent'
                     : isAccessible
-                    ? 'bg-white text-[#5E5364] hover:text-[#2D2530] hover:bg-[#FAF8FB] border-[#F1E4EC]'
-                    : 'bg-[#FAF8FB] text-[#8E8295] border-[#F1E4EC] cursor-not-allowed opacity-50'
+                    ? 'bg-white/80 text-textBody hover:text-textDark hover:bg-white border-slate-200/80 shadow-2xs'
+                    : 'bg-slate-100/60 text-textMuted border-slate-200/50 cursor-not-allowed opacity-50'
                 }`}
                 title={!isAccessible ? 'Generate or select a project first' : step.label}
               >
@@ -68,7 +68,7 @@ const WorkflowStepIndicator = ({ currentStepId }) => {
               </button>
 
               {idx < steps.length - 1 && (
-                <div className="w-3 h-0.5 bg-[#F1E4EC] rounded-full flex-shrink-0"></div>
+                <div className="w-2.5 h-0.5 bg-slate-200 rounded-full flex-shrink-0"></div>
               )}
             </React.Fragment>
           );
