@@ -32,7 +32,7 @@ const WorkflowStepIndicator = ({ currentStepId, maxSteps }) => {
   const location = useLocation();
   const { activeProject } = useProject();
 
-  const limit = maxSteps !== undefined ? maxSteps : (currentStepId === 'analyzer' ? 3 : undefined);
+  const limit = maxSteps !== undefined ? maxSteps : (['analyzer', 'discover'].includes(currentStepId) ? 3 : undefined);
   const displayedSteps = limit ? steps.slice(0, limit) : steps;
 
   const handleStepClick = (step) => {
