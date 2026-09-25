@@ -78,7 +78,7 @@ const IdeaGenerator = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6 text-[#2D2530]">
-      <WorkflowStepIndicator currentStepId="generator" />
+      <WorkflowStepIndicator currentStepId="generator" maxSteps={3} />
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
