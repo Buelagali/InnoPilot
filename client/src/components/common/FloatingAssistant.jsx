@@ -49,6 +49,7 @@ const FloatingAssistant = () => {
         message: text,
         projectId: activeProject?._id || null,
         conversationId,
+        history: messages.slice(-8),
       });
 
       if (res.data?.success && res.data?.reply) {
@@ -59,15 +60,15 @@ const FloatingAssistant = () => {
           ...prev,
           {
             sender: 'ai',
-            text: 'Hello! I am your AI Innovation Companion. How can I help you brainstorm, evolve, evaluate, or defend your capstone project today?',
+            text: res.data?.message || "I couldn't generate a response right now. Please try again.",
           },
         ]);
       }
     } catch (err) {
-      const fallbackReply = err.response?.data?.message || 'Hello! I am ready to help you brainstorm unique project ideas, evaluate research gaps, refine your architecture, or prepare defense questions.';
+      const errorMsg = err.response?.data?.message || "I couldn't generate a response right now. Please try again.";
       setMessages((prev) => [
         ...prev,
-        { sender: 'ai', text: fallbackReply },
+        { sender: 'ai', text: errorMsg },
       ]);
     } finally {
       setLoading(false);

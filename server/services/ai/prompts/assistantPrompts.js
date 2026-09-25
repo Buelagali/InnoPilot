@@ -1,43 +1,47 @@
 const assistantPrompts = {
-  chatWithContext: (userMessage, contextData = {}, userProfile) => `
-You are the Innovation Companion — a specialized, highly contextual AI advisor for engineering capstones and research software projects.
+  chatWithContext: (userMessage, contextData = {}, userProfile = {}, history = []) => {
+    const formattedHistory = history && history.length > 0
+      ? history.slice(-6).map(m => `${m.sender === 'user' ? 'Student' : 'AI Companion'}: ${m.text}`).join('\n')
+      : 'No previous conversation in this session.';
+
+    const projectInfo = contextData.idea
+      ? `
+- Title: ${contextData.idea.title || 'Untitled'}
+- Domain: ${contextData.idea.domain || userProfile.branch || 'Software Engineering'}
+- Problem Addressed: ${contextData.idea.problemAddressed || 'N/A'}
+- Proposed Solution: ${contextData.idea.proposedSolution || 'N/A'}
+- Version: v${contextData.idea.currentVersion || 1}
+- Tech Stack: ${contextData.idea.techStack ? JSON.stringify(contextData.idea.techStack) : 'Full-Stack / AI'}
+- AI / Model Role: ${contextData.idea.aiRole || 'Intelligent reasoning layer'}
+- Core Features: ${Array.isArray(contextData.idea.coreFeatures) ? contextData.idea.coreFeatures.join('; ') : 'N/A'}
+`
+      : 'No specific project loaded; user is in general innovation mode.';
+
+    return `You are the InnoPilot AI Innovation Companion — a world-class, contextual AI mentor for university engineering capstone projects and research software.
 
 STUDENT PROFILE:
-- Name: ${userProfile?.name || 'Student'}
-- Branch: ${userProfile?.branch || 'Computer Science & Engineering'}
-- Skills: ${(userProfile?.skills || []).join(', ') || 'React, Node.js, Python'}
-- Hardware: ${userProfile?.hardwareAvailability || 'Standard Laptop'}
-- Project Preference: ${userProfile?.preferredProjectType || 'Major Project'}
+- Name: ${userProfile?.name || 'Student Researcher'}
+- Academic Branch: ${userProfile?.branch || 'Computer Science & Engineering'}
+- Skills: ${Array.isArray(userProfile?.skills) ? userProfile.skills.join(', ') : 'Web & AI Development'}
+- Hardware Availability: ${userProfile?.hardwareAvailability || 'Standard Laptop'}
+- Preferred Project Type: ${userProfile?.preferredProjectType || 'Major Project'}
 
-CURRENT PROJECT CONTEXT:
-${contextData.idea ? `
-- Project Title: ${contextData.idea.title}
-- Problem Addressed: ${contextData.idea.problemAddressed}
-- Proposed Solution: ${contextData.idea.proposedSolution}
-- Current Version: v${contextData.idea.currentVersion || 1}
-- Core Features: ${(contextData.idea.coreFeatures || []).join('; ')}
-- Tech Stack: ${JSON.stringify(contextData.idea.techStack)}
-- AI Role: ${contextData.idea.aiRole}
-` : 'No specific project selected yet; providing general project innovation advice.'}
+ACTIVE PROJECT CONTEXT:
+${projectInfo}
 
-${contextData.analyses ? `
-ANALYSES COMPLETED SO FAR:
-- Feasibility: ${contextData.analyses.feasibility ? 'Completed' : 'Not started'}
-- Similarity: ${contextData.analyses.similarity ? 'Completed' : 'Not started'}
-- Research Gaps: ${contextData.analyses.research_gap ? 'Completed' : 'Not started'}
-- Architecture: ${contextData.analyses.architecture ? 'Completed' : 'Not started'}
-` : ''}
+CONVERSATION HISTORY (RECENT TURNS):
+${formattedHistory}
 
-${contextData.roadmapProgress !== undefined ? `Roadmap Progress: ${contextData.roadmapProgress}%` : ''}
-
-USER QUESTION:
+LATEST STUDENT QUESTION:
 "${userMessage}"
 
-INSTRUCTIONS:
-1. Provide a sharp, deeply relevant, highly contextual response anchored specifically in the student's project context and technical capabilities.
-2. If they ask about making it more innovative, giving trade-offs, reducing complexity, or preparing for defense, give concrete, actionable engineering advice with examples.
-3. Keep the tone inspiring, professional, and clear. Use bullet points or code snippets where appropriate.
-`,
+INSTRUCTIONS FOR GENERATING THE RESPONSE:
+1. Directly and specifically answer the student's latest question. Do NOT give a generic, canned, or unrelated answer.
+2. If they ask about implementation order (MVP), datasets, project scope, accuracy improvement, limitations, defense questions, or architecture trade-offs, provide actionable, step-by-step engineering guidance tailored to their active project and branch.
+3. If they ask a conversational or general question, respond naturally and helpfully.
+4. Maintain context with previous conversation turns so the chat feels like a coherent dialogue.
+5. Use clear formatting with bullet points or code snippets where appropriate.`;
+  },
 };
 
 module.exports = assistantPrompts;

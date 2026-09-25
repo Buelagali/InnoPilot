@@ -53,8 +53,13 @@ exports.assistantChat = async (req, res, next) => {
       }
     }
 
-    // 2. Generate AI reply via Gemini / Smart Resilient Engine
-    const aiReply = await aiService.chatWithAssistant(message, contextData, req.user);
+    let conversationHistory = Array.isArray(req.body.history) ? req.body.history : [];
+    if (conversation && Array.isArray(conversation.messages) && conversation.messages.length > 0) {
+      conversationHistory = conversation.messages;
+    }
+
+    // 2. Generate AI reply via Gemini / Smart Resilient Engine with full context and history
+    const aiReply = await aiService.chatWithAssistant(message, contextData, req.user, conversationHistory);
 
     // 3. Resiliently persist conversation history if database is ready
     if (mongoose.connection.readyState === 1) {

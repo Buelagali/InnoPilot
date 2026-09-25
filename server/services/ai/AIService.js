@@ -71,9 +71,9 @@ class AIService {
     return await llmProvider.generateJSON(prompt);
   }
 
-  async chatWithAssistant(userMessage, contextData, userProfile) {
-    const prompt = assistantPrompts.chatWithContext(userMessage, contextData, userProfile);
-    return await llmProvider.generateText(prompt);
+  async chatWithAssistant(userMessage, contextData = {}, userProfile = {}, history = []) {
+    const prompt = assistantPrompts.chatWithContext(userMessage, contextData, userProfile, history);
+    return await llmProvider.generateAssistantResponse(prompt, userMessage, contextData, userProfile, history);
   }
 }
 
